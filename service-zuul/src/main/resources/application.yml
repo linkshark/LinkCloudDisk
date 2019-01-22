@@ -1,0 +1,24 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:1000/eureka/
+server:
+  port: 1004
+spring:
+  application:
+    name: service-zuul #起到路由器的作用
+  datasource:
+    username: root
+    url: jdbc:mysql://linkjb.com:3306/linkdisk?characterEncoding=UTF-8&useSSL=false&useUnicode=true
+    password: Scq86906218
+    driver-class-name: com.mysql.jdbc.Driver
+    # ???druid?????
+    type: com.alibaba.druid.pool.DruidDataSource
+zuul:
+  routes:
+#    api-a:
+#      path: /api-a/**
+#      serviceId: service-ribbon
+    api-b:
+      path: /api-b/**
+      serviceId: service-feign

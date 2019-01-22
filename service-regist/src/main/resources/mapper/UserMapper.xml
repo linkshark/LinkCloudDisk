@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.linkjb.serviceregist.dao.UserDao">
+    <resultMap id="userMap" type="com.linkjb.serviceregist.entity.User">
+        <result property="userName" column="user_name"/>
+        <result property="passWord" column="pass_word"/>
+        <result property="id" column="id"/>
+    </resultMap>
+
+
+    <select id="getUserByUserName"  resultType="com.linkjb.serviceregist.entity.User">
+		SELECT * FROM user WHERE userName = #{userName}
+	</select>
+    <insert id="RegistUser"  parameterType="com.linkjb.serviceregist.entity.User" useGeneratedKeys="true" keyProperty="id">
+        insert into user(userName,passWord) values(#{userName},#{passWord})
+        <!-- 指定结果类型resultType，keyProperty是属性，自动返回到属性id中，order是次序，after是指获取id是在于插入后 -->
+        <!--<selectKey resultType="int" keyProperty="id" order="AFTER">-->
+            <!--select last_insert_id()-->
+        <!--</selectKey>-->
+    </insert>
+    <select id="getAllUser" resultType="com.linkjb.serviceregist.entity.User">
+        select * from user
+    </select>
+
+</mapper>

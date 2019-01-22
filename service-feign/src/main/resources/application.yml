@@ -1,0 +1,36 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:1000/eureka/
+server:
+  port: 9000
+spring:
+  application:
+    name: service-feign
+  datasource:
+    username: root
+    url: jdbc:mysql://linkjb.com:3306/linkdisk?characterEncoding=UTF-8&useSSL=false&useUnicode=true
+    password: Scq86906218
+    driver-class-name: com.mysql.jdbc.Driver
+    # ʹ��druid����Դ
+    type: com.alibaba.druid.pool.DruidDataSource
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 5000
+ribbon:
+  ReadTimeout: 120000
+  ConnectTimeout: 30000
+feign:
+  hystrix:
+    enabled: true #Feign是自带断路器的需要在配置文件中配置打开它
+
+  compression:
+    request:
+      enabled: true
+      mime-types: text/xml,application/xml,application/json
+      min-request-size: 2048

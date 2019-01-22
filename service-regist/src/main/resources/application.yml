@@ -1,0 +1,42 @@
+server:
+  port: 1003
+
+spring:
+  redis:
+    database: 0
+    host: 106.14.218.153
+    port: 6379
+    timeout: 5000ms
+    pool:
+      timeout: 0
+    password: shark007
+  servlet:
+    multipart:
+      max-file-size:  500MB
+      max-request-size: 500MB
+  datasource:
+    username: root
+    url: jdbc:mysql://linkjb.com:3306/linkdisk?characterEncoding=UTF-8&useSSL=false&useUnicode=true
+    password: Scq86906218
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+  application:
+    name: service-regist
+mybatis:
+  type-aliases-package: com.linkjb.serviceregist.entity
+  mapper-locations: classpath:mapper/*.xml
+logging:
+  level:
+    com.linkjb.dao : debug
+  config: classpath:logback-linkdisk.xml
+pool:
+  corePoolSize: 10
+  maxPoolSize: 200
+  queueCapacity: 10
+main:
+  allow-bean-definition-overriding: true
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:1000/eureka/
