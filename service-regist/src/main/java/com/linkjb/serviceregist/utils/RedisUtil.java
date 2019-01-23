@@ -198,7 +198,7 @@ public class RedisUtil {
      * @param key
      * @param map
      */
-    public void putAll(String key,Map<String,String> map){
+    public void putAll(String key, Map<String, Object> map){
         redisTemplate.opsForHash().putAll(key, map);
     }
 
