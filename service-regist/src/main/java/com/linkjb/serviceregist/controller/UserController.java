@@ -1,5 +1,7 @@
 package com.linkjb.serviceregist.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.linkjb.serviceregist.base.BaseResult;
 import com.linkjb.serviceregist.base.ConstantSrting;
 import com.linkjb.serviceregist.entity.User;
@@ -10,6 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.*;
 
 /**
  * @author sharkshen
@@ -26,6 +30,7 @@ public class UserController {
     private UserService userService;
     @Autowired
     RedisUtil redisUtil;
+
     private static String salt = "sharkshen";
     /*
      * @Author sharkshen
@@ -82,6 +87,20 @@ public class UserController {
            Integer a = userService.RegistUser(user); //a的值为sql影响的行数,一开始理解错误,是直接将id返回到对象中,所以可以直接返回对象
            if(a.equals(1)){
                redisUtil.set(user.getUserName(),user.getPassWord());
+               //实体类转map
+               JSONObject jsonObject  = (JSONObject)JSON.toJSON(user);
+               Set<Map.Entry<String,Object>> entrySet = jsonObject.entrySet();
+               Map<String,Object> map = new HashMap<>();
+               for (Map.Entry<String,Object> entry:
+                    entrySet) {
+                   map.put(entry.getKey(), entry.getValue());
+               };
+
+               redisUtil.putAll("POJO_"+user.getUserName(),map);
+               Map<String, User> hashEntries= (Map)redisUtil.getHashEntries(user.getUserName() + "_pojo");
+               Log.info(hashEntries.toString());
+
+
                result.setEntity(user);
                result.setStatus(ConstantSrting.STATUS_SUCCESS);
                return result;
