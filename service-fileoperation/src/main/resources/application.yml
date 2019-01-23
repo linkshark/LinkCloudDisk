@@ -1,0 +1,20 @@
+server:
+  port: 8087
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:1000/eureka/
+
+spring:
+  application:
+    name: service-fileoperation
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+  datasource:
+    url: jdbc:mysql://local:3306/springCloud
+    username: username
+    password: password
+debug: true

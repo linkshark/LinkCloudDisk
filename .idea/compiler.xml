@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="eureka-server" />
         <module name="service-feign" />
+        <module name="service-fileoperation" />
         <module name="service-regist" />
         <module name="service-zuul" />
       </profile>
@@ -17,6 +18,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="eureka-server" options="-parameters" />
       <module name="service-feign" options="-parameters" />
+      <module name="service-fileoperation" options="-parameters" />
       <module name="service-regist" options="-parameters" />
       <module name="service-zuul" options="-parameters" />
     </option>
