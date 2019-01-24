@@ -11,4 +11,6 @@ public interface UserService {
     public User getUserByUserName(String userName);
 
     Integer RegistUser(User user);
+
+    User findUserById(String userId);
 }

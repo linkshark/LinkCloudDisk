@@ -2,6 +2,8 @@ package com.linkjb.serviceregist.dao;
 
 import com.linkjb.serviceregist.entity.User;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -17,4 +19,7 @@ public interface UserDao {
     Integer RegistUser(User user);
 
     List<User> getAllUser();
+
+    @Select(value = "select * from user where id = #{userId}")
+    User findUserById(@Param("userId") String userId);
 }

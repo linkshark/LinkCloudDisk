@@ -2,6 +2,7 @@ package com.linkjb.serviceregist.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.linkjb.serviceregist.annotation.AuthToken;
 import com.linkjb.serviceregist.base.BaseResult;
 import com.linkjb.serviceregist.base.ConstantSrting;
 import com.linkjb.serviceregist.entity.User;
@@ -12,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import redis.clients.jedis.Jedis;
 
 import java.util.*;
 
@@ -95,6 +97,7 @@ public class UserController {
                     entrySet) {
                    map.put(entry.getKey(), entry.getValue());
                };
+               Jedis jedis = new Jedis();
 
                redisUtil.putAll("POJO_"+user.getUserName(),map);
                Map<String, User> hashEntries= (Map)redisUtil.getHashEntries(user.getUserName() + "_pojo");
@@ -125,15 +128,13 @@ public class UserController {
     public BaseResult<User> Login(@RequestParam("userName") String userName, @RequestParam("passWord") String passWord){
         BaseResult<User> result = new BaseResult<>();
         try{
-            if(redisUtil.get(userName)!=null&&redisUtil.get(userName).equals(MD5.encryptPassword(passWord,salt))){
-                result.setStatus(ConstantSrting.STATUS_SUCCESS);
-                //result.setEntity(user);
-                return result;
-            }else{
                 User user = userService.getUserByUserName(userName);
                 if(user!=null){
                     String checkPass = user.getPassWord();
                     if(MD5.encryptPassword(passWord,salt).equals(checkPass)){
+                        //username和token 双向绑定,登录后token有效时间为60分钟
+                        redisUtil.setForTimeMS(userName,user.getToken(user),1000*60*60);
+                        redisUtil.setForTimeMS(user.getToken(user),userName,1000*60*60);
                         result.setStatus(ConstantSrting.STATUS_SUCCESS);
                         result.setEntity(user);
                         return result;
@@ -147,8 +148,6 @@ public class UserController {
                     result.setMessage("账号错误");
                     return result;
                 }
-            }
-
         }catch (Exception e){
             Log.error(e.getMessage());
             result.setStatus(ConstantSrting.STATUS_SUCCESS);
