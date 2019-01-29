@@ -1,5 +1,5 @@
 server:
-  port: 1003
+  port: 1002
 
 spring:
   redis:
@@ -22,9 +22,29 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
   application:
     name: service-regist
+  output:
+    ansi:
+      enabled: always #默认开启彩色日志
 mybatis:
   type-aliases-package: com.linkjb.serviceregist.entity
   mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+########## 通用Mapper ##########
+mapper:
+  identity: MYSQL
+  mappers: tk.mybatis.mapper.common.BaseMapper
+  #设置以后，会去判断 insert 和 update 中符串类型!=’’
+  not-empty: true
+  # 枚举按简单类型处理
+  #枚举按简单类型处理，如果有枚举字段则需要加上该配置才会做映射
+  enum-as-simple-type: true
+########## 分页插件 ##########
+pagehelper:
+  helper-dialect: mysql
+  params: count=countSql
+  reasonable: false
+  support-methods-arguments: true
 logging:
   level:
     com.linkjb.dao : debug

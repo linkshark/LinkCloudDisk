@@ -2,11 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
 
 <mapper namespace="com.linkjb.serviceregist.dao.UserDao">
-    <resultMap id="userMap" type="com.linkjb.serviceregist.entity.User">
-        <result property="userName" column="user_name"/>
-        <result property="passWord" column="pass_word"/>
-        <result property="id" column="id"/>
-    </resultMap>
+    <!--mybatis.configuration.map-underscore-to-camel-case是一个非常好的配置项，
+    合理的命名规范可以让我们省略很多不必要的麻烦，
+    比如xx-mapper.xml中的resultMap的映射可以省略掉了-->
+    <!--<resultMap id="userMap" type="com.linkjb.serviceregist.entity.User">-->
+        <!--<result property="userName" column="user_name"/>-->
+        <!--<result property="passWord" column="pass_word"/>-->
+        <!--<result property="id" column="id"/>-->
+    <!--</resultMap>-->
 
 
     <select id="getUserByUserName"  resultType="com.linkjb.serviceregist.entity.User">

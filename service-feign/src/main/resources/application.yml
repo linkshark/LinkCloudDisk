@@ -14,6 +14,9 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     # ʹ��druid����Դ
     type: com.alibaba.druid.pool.DruidDataSource
+  output:
+    ansi:
+      enabled: always #日志默认开启颜色
 
 hystrix:
   command:

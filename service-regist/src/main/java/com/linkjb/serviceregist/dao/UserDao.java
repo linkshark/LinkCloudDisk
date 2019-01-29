@@ -4,6 +4,7 @@ import com.linkjb.serviceregist.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import tk.mybatis.mapper.common.BaseMapper;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
  * @Useage
  */
 @Mapper
-public interface UserDao {
+public interface UserDao extends BaseMapper<User> {
     User getUserByUserName(String userName);
 
     Integer RegistUser(User user);
