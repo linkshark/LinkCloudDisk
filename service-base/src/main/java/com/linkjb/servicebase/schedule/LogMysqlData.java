@@ -1,6 +1,8 @@
-package com.linkjb.serviceregist.schedule;
+package com.linkjb.servicebase.schedule;
 
-import com.linkjb.serviceregist.dao.UserDao;
+import com.linkjb.servicebase.dao.TestDao;
+import com.linkjb.servicebase.pojo.NameData;
+import com.linkjb.servicebase.utils.MakeData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 
 /**
@@ -24,16 +27,25 @@ public class LogMysqlData implements ApplicationRunner {
     public static Integer count = 0;
     public final static long ONE_Minute =  60 * 1000;
     @Resource
-    UserDao userDao;
+    TestDao dao;
 
-    //@Scheduled(fixedDelay=ONE_Minute*30) //执行完毕之后多久执行一次
+    @Scheduled(fixedDelay=ONE_Minute*30) //执行完毕之后多久执行一次
     public void fixedDelayJob(){
-        //log.info("每隔30分钟的定时任务,执行到第"+ ++count + "次"+userDao.getAllUser());
+        int dataLength = 1000000;
+        List<NameData> dataList = MakeData.makeData(dataLength);
+
+        for(int i = 0 ; i< dataList.size();i++){
+            dataList.get(i).setMobile(String.valueOf((long)(Math.random()*100000000000L)));
+            log.info(String.valueOf(dataList.get(i)));
+            dao.insertIntoOcl(dataList.get(i));
+
+        }
+
     }
 
     //@Scheduled(fixedRate=ONE_Minute*30) //每隔多少时间执行一次
     public void fixedRateJob(){
-        log.info("每隔30分钟的定时任务,执行到第"+ ++count + "次"+userDao.getAllUser());
+        //log.info("每隔30分钟的定时任务,执行到第"+ ++count + "次"+userDao.getAllUser());
     }
 
     //@Scheduled(cron="0 15 3 * * ?") //定时任务

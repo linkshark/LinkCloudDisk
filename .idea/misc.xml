@@ -11,6 +11,7 @@
         <option value="$PROJECT_DIR$/service-zuul/pom.xml" />
         <option value="$PROJECT_DIR$/service-fileup/pom.xml" />
         <option value="$PROJECT_DIR$/service-fileoperation/pom.xml" />
+        <option value="$PROJECT_DIR$/service-base/pom.xml" />
       </list>
     </option>
   </component>

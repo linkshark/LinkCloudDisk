@@ -58,32 +58,32 @@ public class RedisDelayingQueue<T> {
     public void handleMsg(T msg) {
         System.out.println(msg);
     }
-    public static void main(String[] args) {
-        Set<String> set = new HashSet<>();
-
-        Jedis jedis = new Jedis();
-        RedisDelayingQueue queue = new RedisDelayingQueue<>(jedis, "q-demo");
-        Thread producer = new Thread() {
-            public void run() {
-                for (int i = 0; i < 10; i++) {
-                    queue.delay("codehole" + i);
-                }
-            }
-        };
-        Thread consumer = new Thread() {
-            public void run() {
-                queue.loop();
-            }
-        };
-        producer.start();
-        consumer.start();
-        try {
-            producer.join();
-            Thread.sleep(6000);
-            consumer.interrupt();
-            consumer.join();
-        }
-        catch (InterruptedException e) {
-        }
-    }
+//    public static void main(String[] args) {
+//        Set<String> set = new HashSet<>();
+//
+//        Jedis jedis = new Jedis();
+//        RedisDelayingQueue queue = new RedisDelayingQueue<>(jedis, "q-demo");
+//        Thread producer = new Thread() {
+//            public void run() {
+//                for (int i = 0; i < 10; i++) {
+//                    queue.delay("codehole" + i);
+//                }
+//            }
+//        };
+//        Thread consumer = new Thread() {
+//            public void run() {
+//                queue.loop();
+//            }
+//        };
+//        producer.start();
+//        consumer.start();
+//        try {
+//            producer.join();
+//            Thread.sleep(6000);
+//            consumer.interrupt();
+//            consumer.join();
+//        }
+//        catch (InterruptedException e) {
+//        }
+//    }
 }
