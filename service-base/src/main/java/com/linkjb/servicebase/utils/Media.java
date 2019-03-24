@@ -1,4 +1,4 @@
-package com.linkjb.servicebase.pojo;
+package com.linkjb.servicebase.utils;
 
 import java.util.Date;
 
@@ -22,7 +22,7 @@ public class Media {
     private String tvStation;//电视台
     private Date timeSchadule;//首映时间
     private String grade;//评分
-    private String image;//图片地址
+    private String image;//图片名
 
     public String getMediaId() {
         return mediaId;

@@ -1,5 +1,7 @@
 package com.linkjb.servicebase.schedule;
 
+import com.linkjb.servicebase.dao.MediaMapper;
+import com.linkjb.servicebase.pojo.LinkMedia;
 import com.linkjb.servicebase.pojo.Media;
 import com.linkjb.servicebase.utils.DownloadUtil;
 import com.linkjb.servicebase.utils.HttpRequest;
@@ -10,11 +12,9 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,8 +28,10 @@ import java.util.Random;
  * @Useage
  */
 public class Spider {
+    @Autowired
+    MediaMapper mediaDAO;
     private static final Logger log = LoggerFactory.getLogger(Spider.class);
-    private String url = "https://www.meijutt.com/1_______.html";
+    private static String url = "https://www.meijutt.com/1_______.html";
 
     public static void main(String[] args) throws IOException {
             Spider sp = new Spider();
@@ -50,7 +52,7 @@ public class Spider {
            Elements select = doc.select(".page span");
             number =  select.get(0).text().substring(select.get(0).text().indexOf("/")+1);
        }catch (Exception e){
-           log.info(e.getMessage());
+           log.error(e.getMessage());
        }
        return number;
 
@@ -64,7 +66,7 @@ public class Spider {
                 list.add(url+i+"_______.html");
             }
         }catch (Exception e){
-            log.info(e.getMessage());
+            log.error(e.getMessage());
         }
         return list;
     }
@@ -96,7 +98,7 @@ public class Spider {
             }
 
         }catch(Exception e){
-            log.info(e.getMessage());
+            log.error(e.getMessage());
         }
         return list;
     }
@@ -136,7 +138,7 @@ public class Spider {
                 String params = "id="+currentUrl.substring(currentUrl.lastIndexOf("meiju")+5,currentUrl.lastIndexOf("."))+"&action=newstarscorevideo";
                 //log.info(params);
                 String s = HttpRequest.sendGet("https://www.meijutt.com/inc/ajax.asp", params);
-                log.info(s);
+                //log.info(s);
                 String substring = s.substring(s.indexOf("[") + 1, s.indexOf("]"));
                 String[] split = substring.split(",");
                 double v = Double.parseDouble(split[0]);
@@ -152,10 +154,31 @@ public class Spider {
                 String imgName = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date())+String.valueOf(new Random().nextInt(10000));
                 DownloadUtil.downloadImage(imgUrl,imgName);
                 m.setImage(imgName);
-                log.info(m.toString());
+                //mediaDAO.insert(m);
+                //Integer id = m.getId();
+                //m1.setUrlName(document.select(".down_list").select(".max-height").select("li"));
+                Elements li = document.select(".down_list").get(0).select("ul li");
+                //log.info(li.toString());
+                //log.info(Integer.valueOf(li.size()).toString());
+                if(li.size()!=0){
+                   for(int i=0;i<li.size();i++){
+                       Element element = li.get(i);
+                       //log.info(element.toString());
+                       LinkMedia m1 = new LinkMedia();
+                       m1.setUrlName(element.select(".down_part_name").select("a").text());
+                       m1.setSize(Double.valueOf(element.select("em").text().substring(1,element.select("em").text().length()-1).replaceAll("M","").replaceAll("B","").replaceAll("G","")));
+
+                       m1.setUrlAddress(element.select(".down_part_name").select("a").attr("href").replaceAll("请输入ED2K://开头的","").replaceAll("地址",""));
+                      //log.info( element.select("em").text());
+                        log.info(m1.toString());
+                   }
+                }
+
+
+
             }
         }catch (Exception e){
-            log.info(e.getMessage());
+            log.error(e.getMessage());
         }
     }
 

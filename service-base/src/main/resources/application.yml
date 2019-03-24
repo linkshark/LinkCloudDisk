@@ -2,11 +2,23 @@ server:
   port: 8018
 spring:
   datasource:
-    driver-class-name: oracle.jdbc.driver.OracleDriver
-    url: jdbc:oracle:thin:@10.10.2.202:1521:orcl
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: Scq86906218
+    url: jdbc:mysql://linkjb.com:3306/linkdisk?useUnicode=true?characterEncoding=utf8
     type: com.alibaba.druid.pool.DruidDataSource
-    username: rcp
-    password: rcp
-    data-username:
+
+  #    driver-class-name: oracle.jdbc.driver.OracleDriver
+  ##    url: jdbc:oracle:thin:@10.10.2.202:1521:orcl
+  ##    type: com.alibaba.druid.pool.DruidDataSource
+  ##    username: rcp
+  ##    password: rcp
+  ##    data-username:
+
 mybatis:
+  type-aliases-package: com.linkjb.servicebase.pojo
   mapper-locations: classpath:mapper/*.xml
+
+logging:
+  level:
+    com.linkjb.servicebase : debug
