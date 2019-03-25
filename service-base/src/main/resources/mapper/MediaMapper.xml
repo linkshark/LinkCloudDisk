@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.linkjb.servicebase.dao.MediaMapper">
+  <resultMap id="BaseResultMap" type="com.linkjb.servicebase.pojo.Media">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="media_name" jdbcType="VARCHAR" property="mediaName" />
+    <result column="primitive_name" jdbcType="VARCHAR" property="primitiveName" />
+    <result column="alias" jdbcType="VARCHAR" property="alias" />
+    <result column="script_writer_name" jdbcType="VARCHAR" property="scriptWriterName" />
+    <result column="director_name" jdbcType="VARCHAR" property="directorName" />
+    <result column="actors" jdbcType="VARCHAR" property="actors" />
+    <result column="premiere_date" jdbcType="VARCHAR" property="premiereDate" />
+    <result column="big_media_kind" jdbcType="VARCHAR" property="bigMediaKind" />
+    <result column="media_kind" jdbcType="VARCHAR" property="mediaKind" />
+    <result column="location" jdbcType="VARCHAR" property="location" />
+    <result column="tv_station" jdbcType="VARCHAR" property="tvStation" />
+    <result column="time_schadule" jdbcType="VARCHAR" property="timeSchadule" />
+    <result column="grade" jdbcType="VARCHAR" property="grade" />
+    <result column="image" jdbcType="VARCHAR" property="image" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, media_name, primitive_name, alias, script_writer_name, director_name, actors, 
+    premiere_date, big_media_kind, media_kind, location, tv_station, time_schadule, grade, 
+    image
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from media
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="getCountByMediaName" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select count(*) from media where media_name = #{mediaName}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from media
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.linkjb.servicebase.pojo.Media" useGeneratedKeys="true" keyProperty="id">
+    insert into media (id, media_name, primitive_name, 
+      alias, script_writer_name, director_name, 
+      actors, premiere_date, big_media_kind, 
+      media_kind, location, tv_station, 
+      time_schadule, grade, image
+      )
+    values (#{id,jdbcType=INTEGER}, #{mediaName,jdbcType=VARCHAR}, #{primitiveName,jdbcType=VARCHAR}, 
+      #{alias,jdbcType=VARCHAR}, #{scriptWriterName,jdbcType=VARCHAR}, #{directorName,jdbcType=VARCHAR}, 
+      #{actors,jdbcType=VARCHAR}, #{premiereDate,jdbcType=VARCHAR}, #{bigMediaKind,jdbcType=VARCHAR},
+      #{mediaKind,jdbcType=VARCHAR}, #{location,jdbcType=VARCHAR}, #{tvStation,jdbcType=VARCHAR}, 
+      #{timeSchadule,jdbcType=VARCHAR}, #{grade,jdbcType=VARCHAR}, #{image,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.linkjb.servicebase.pojo.Media">
+    insert into media
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="mediaName != null">
+        media_name,
+      </if>
+      <if test="primitiveName != null">
+        primitive_name,
+      </if>
+      <if test="alias != null">
+        alias,
+      </if>
+      <if test="scriptWriterName != null">
+        script_writer_name,
+      </if>
+      <if test="directorName != null">
+        director_name,
+      </if>
+      <if test="actors != null">
+        actors,
+      </if>
+      <if test="premiereDate != null">
+        premiere_date,
+      </if>
+      <if test="bigMediaKind != null">
+        big_media_kind,
+      </if>
+      <if test="mediaKind != null">
+        media_kind,
+      </if>
+      <if test="location != null">
+        location,
+      </if>
+      <if test="tvStation != null">
+        tv_station,
+      </if>
+      <if test="timeSchadule != null">
+        time_schadule,
+      </if>
+      <if test="grade != null">
+        grade,
+      </if>
+      <if test="image != null">
+        image,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="mediaName != null">
+        #{mediaName,jdbcType=VARCHAR},
+      </if>
+      <if test="primitiveName != null">
+        #{primitiveName,jdbcType=VARCHAR},
+      </if>
+      <if test="alias != null">
+        #{alias,jdbcType=VARCHAR},
+      </if>
+      <if test="scriptWriterName != null">
+        #{scriptWriterName,jdbcType=VARCHAR},
+      </if>
+      <if test="directorName != null">
+        #{directorName,jdbcType=VARCHAR},
+      </if>
+      <if test="actors != null">
+        #{actors,jdbcType=VARCHAR},
+      </if>
+      <if test="premiereDate != null">
+        #{premiereDate,jdbcType=VARCHAR},
+      </if>
+      <if test="bigMediaKind != null">
+        #{bigMediaKind,jdbcType=VARCHAR},
+      </if>
+      <if test="mediaKind != null">
+        #{mediaKind,jdbcType=VARCHAR},
+      </if>
+      <if test="location != null">
+        #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="tvStation != null">
+        #{tvStation,jdbcType=VARCHAR},
+      </if>
+      <if test="timeSchadule != null">
+        #{timeSchadule,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null">
+        #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null">
+        #{image,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.linkjb.servicebase.pojo.Media">
+    update media
+    <set>
+      <if test="mediaName != null">
+        media_name = #{mediaName,jdbcType=VARCHAR},
+      </if>
+      <if test="primitiveName != null">
+        primitive_name = #{primitiveName,jdbcType=VARCHAR},
+      </if>
+      <if test="alias != null">
+        alias = #{alias,jdbcType=VARCHAR},
+      </if>
+      <if test="scriptWriterName != null">
+        script_writer_name = #{scriptWriterName,jdbcType=VARCHAR},
+      </if>
+      <if test="directorName != null">
+        director_name = #{directorName,jdbcType=VARCHAR},
+      </if>
+      <if test="actors != null">
+        actors = #{actors,jdbcType=VARCHAR},
+      </if>
+      <if test="premiereDate != null">
+        premiere_date = #{premiereDate,jdbcType=VARCHAR},
+      </if>
+      <if test="bigMediaKind != null">
+        big_media_kind = #{bigMediaKind,jdbcType=VARCHAR},
+      </if>
+      <if test="mediaKind != null">
+        media_kind = #{mediaKind,jdbcType=VARCHAR},
+      </if>
+      <if test="location != null">
+        location = #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="tvStation != null">
+        tv_station = #{tvStation,jdbcType=VARCHAR},
+      </if>
+      <if test="timeSchadule != null">
+        time_schadule = #{timeSchadule,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null">
+        grade = #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null">
+        image = #{image,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.linkjb.servicebase.pojo.Media">
+    update media
+    set media_name = #{mediaName,jdbcType=VARCHAR},
+      primitive_name = #{primitiveName,jdbcType=VARCHAR},
+      alias = #{alias,jdbcType=VARCHAR},
+      script_writer_name = #{scriptWriterName,jdbcType=VARCHAR},
+      director_name = #{directorName,jdbcType=VARCHAR},
+      actors = #{actors,jdbcType=VARCHAR},
+      premiere_date = #{premiereDate,jdbcType=VARCHAR},
+      big_media_kind = #{bigMediaKind,jdbcType=VARCHAR},
+      media_kind = #{mediaKind,jdbcType=VARCHAR},
+      location = #{location,jdbcType=VARCHAR},
+      tv_station = #{tvStation,jdbcType=VARCHAR},
+      time_schadule = #{timeSchadule,jdbcType=VARCHAR},
+      grade = #{grade,jdbcType=VARCHAR},
+      image = #{image,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
