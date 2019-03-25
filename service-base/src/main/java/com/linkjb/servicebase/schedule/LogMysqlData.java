@@ -20,7 +20,7 @@ import java.util.List;
  * @data 2019/1/19 0:04
  * @Useage 定时任务
  */
-@Component
+//@Component
 public class LogMysqlData implements ApplicationRunner {
 
     private static final Logger log = LoggerFactory.getLogger(LogMysqlData.class);
@@ -29,7 +29,7 @@ public class LogMysqlData implements ApplicationRunner {
     @Resource
     TestDao dao;
 
-    @Scheduled(fixedDelay=ONE_Minute*30) //执行完毕之后多久执行一次
+//    @Scheduled(fixedDelay=ONE_Minute*30) //执行完毕之后多久执行一次
     public void fixedDelayJob(){
         int dataLength = 1000000;
         List<NameData> dataList = MakeData.makeData(dataLength);

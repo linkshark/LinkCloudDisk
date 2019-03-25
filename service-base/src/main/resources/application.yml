@@ -4,8 +4,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
-    password: Scq86906218
-    url: jdbc:mysql://linkjb.com:3306/linkdisk?useUnicode=true?characterEncoding=utf8
+    password: root
+    url: jdbc:mysql://127.0.0.1:3306/mediasubscriber?characterEncoding=utf8
     type: com.alibaba.druid.pool.DruidDataSource
 
   #    driver-class-name: oracle.jdbc.driver.OracleDriver
