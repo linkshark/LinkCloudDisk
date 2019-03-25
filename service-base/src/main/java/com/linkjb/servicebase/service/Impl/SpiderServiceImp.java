@@ -14,6 +14,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.task.TaskExecutor;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -98,7 +100,6 @@ public class SpiderServiceImp implements SpiderService {
 //                    byte[] b = href.getBytes();
 //                    out.write(b);
                     list.add("https://www.meijutt.com"+currentEle.attr("href"));
-
                 }
                 //out.close();
 
@@ -110,8 +111,11 @@ public class SpiderServiceImp implements SpiderService {
         return list;
     }
 
-    public void getAndInsertData() throws IOException {
-        List<String> allUrl = getAllUrl();
+    @Async("asyncPromiseExecutor")
+    //通过@Async注解表明该方法是一个异步方法，如果注解在类级别，表明该类下所有方法都是异步方法，
+    // 而这里的方法自动被注入使用ThreadPoolTaskExecutor 作为 TaskExecutor
+    public void getAndInsertData(String currentUrl) throws IOException {
+        //List<String> allUrl = getAllUrl();
 
         //List<String> allUrl = new ArrayList<>();
 //        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(new File("C:/lastUrl.txt")),
@@ -126,7 +130,8 @@ public class SpiderServiceImp implements SpiderService {
 //        String fileName="D:"+ File.separator+"download.txt";
 //        File f = new File(fileName);
         //OutputStream out = new FileOutputStream(f,true);//true表示追加模式，否则为覆盖
-            for(String currentUrl:allUrl){
+
+            //for(String currentUrl:allUrl){
                 try{
 
                 Document document = Jsoup.connect(currentUrl).timeout(5000).header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8")
@@ -178,10 +183,10 @@ public class SpiderServiceImp implements SpiderService {
                 if(!"".equals(document.select(".info-title span").text()+document.select(".info-title h1").text())){
                     int countByMediaName = mediaDAO.getCountByMediaName(document.select(".info-title span").text() + document.select(".info-title h1").text());
                     if(countByMediaName>=1){
-                        continue; //重复数据不爬取
+                        return; //重复数据不爬取
                     }
                 }else {
-                    continue;
+                    return;
                 }
                 mediaDAO.insert(m);
                 //已经插入的url写入文件以下次断点续爬
@@ -211,17 +216,16 @@ public class SpiderServiceImp implements SpiderService {
                 }catch (Exception e){
                     e.printStackTrace();
                     log.info(currentUrl);
-                    continue;
+                    return;
                 }
                 //log.info(li.toString());
                 //log.info(Integer.valueOf(li.size()).toString());
             }catch (Exception e){
                     e.printStackTrace();
                     log.info(currentUrl);
-                    continue;
                 }
             //
-        }
+        //}
             //out.close();
 
 

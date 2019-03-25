@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,8 +27,16 @@ public class SpiderController {
     SpiderService spService;
     @GetMapping("/hello")
     public void Hello() throws IOException {
-
-        spService.getAndInsertData();
+        List<String> allList = spService.getAllUrl();
+        allList.forEach(i-> {
+            try {
+                spService.getAndInsertData(i);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return;
+            }
+        });
+        ;
     }
 
 //    @GetMapping("/hello")
