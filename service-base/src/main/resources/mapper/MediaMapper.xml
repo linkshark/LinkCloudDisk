@@ -30,7 +30,7 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="getCountByMediaName" parameterType="java.lang.String" resultType="java.lang.Integer">
-    select count(*) from media where media_name = #{mediaName}
+    select count(*) from media where media_name like CONCAT('%',#{mediaName},'%')
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from media
