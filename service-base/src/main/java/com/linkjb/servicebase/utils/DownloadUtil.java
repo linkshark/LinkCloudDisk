@@ -18,6 +18,10 @@ public class DownloadUtil {
         URL url = new URL(Imageurl);
         //打开网络输入流
         DataInputStream dis = new DataInputStream(url.openStream());
+        File f = new File("D://tmp");
+        if(!f.exists()){
+            f.mkdirs();
+        }
         String newImageName="D://tmp//"+filename+".jpg";
         //建立一个新的文件
         FileOutputStream fos = new FileOutputStream(new File(newImageName));

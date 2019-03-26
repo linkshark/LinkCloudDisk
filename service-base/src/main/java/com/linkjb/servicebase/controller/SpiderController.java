@@ -25,7 +25,7 @@ import java.util.Map;
 public class SpiderController {
     @Autowired
     SpiderService spService;
-    @GetMapping("/hello")
+    @RequestMapping(value = "/hello",method = RequestMethod.PUT)
     public void Hello() throws IOException {
         List<String> allList = spService.getAllUrl();
         allList.forEach(i-> {
@@ -38,6 +38,16 @@ public class SpiderController {
         });
         ;
     }
+    @RequestMapping(value = "/hello/{url}",method = RequestMethod.PUT)
+    public void Hello(@PathVariable("url") String url) throws IOException {
+            try {
+                spService.getAndInsertData(url);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        ;
+    }
+
 
 //    @GetMapping("/hello")
 //    public CommonReturnType GoDie(@RequestParam(name = "id") Integer id) throws BusinessException {
