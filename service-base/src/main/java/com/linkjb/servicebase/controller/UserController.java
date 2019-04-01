@@ -1,6 +1,5 @@
 package com.linkjb.servicebase.controller;
 
-import com.linkjb.servicebase.service.Impl.SpiderServiceImp;
 import com.linkjb.servicebase.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

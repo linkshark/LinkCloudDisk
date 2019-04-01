@@ -1,11 +1,17 @@
 server:
   port: 8018
 spring:
+  #  profiles:
+  #    active: do-not-up //配置此项将读 application-do-not-up.yml
+  output:
+    ansi:
+      #开启彩色日志
+      enabled: always
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
-    password: root
-    url: jdbc:mysql://127.0.0.1:3306/mediasubscriber?characterEncoding=utf8
+    password: zhendebunengshuo
+    url: jdbc:mysql://linkjb.com:3306/mediasubscriber?characterEncoding=utf8
     type: com.alibaba.druid.pool.DruidDataSource
 
   #    driver-class-name: oracle.jdbc.driver.OracleDriver
@@ -14,11 +20,22 @@ spring:
   ##    username: rcp
   ##    password: rcp
   ##    data-username:
+  rabbitmq:
+    host: www.linkjb.com
+    port: 5672
+    username: bunengshuo
+    password: zhendebunengshuo
 
 mybatis:
   type-aliases-package: com.linkjb.servicebase.pojo
   mapper-locations: classpath:mapper/*.xml
 
 logging:
+  file: LinkCloudDisk.log
   level:
     com.linkjb.servicebase : debug
+eureka:
+  client:
+    serviceUrl:
+      #注册服务
+      defaultZone: http://localhost:1000/eureka/

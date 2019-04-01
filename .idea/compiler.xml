@@ -7,10 +7,10 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="eureka-server" />
-        <module name="service-base" />
-        <module name="service-feign" />
-        <module name="service-fileoperation" />
         <module name="service-regist" />
+        <module name="service-feign" />
+        <module name="service-base" />
+        <module name="service-fileoperation" />
         <module name="service-zuul" />
       </profile>
     </annotationProcessing>

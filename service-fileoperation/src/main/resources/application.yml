@@ -7,6 +7,8 @@ eureka:
       defaultZone: http://localhost:1000/eureka/
 
 spring:
+#  profiles:
+#    active: do-not-up //配置
   application:
     name: service-fileoperation
   jpa:
