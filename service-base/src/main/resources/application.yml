@@ -25,6 +25,7 @@ spring:
     port: 5672
     username: bunengshuo
     password: zhendebunengshuo
+    publisher-confirms: true #  消息发送到交换机确认机制,是否确认回调
 
 mybatis:
   type-aliases-package: com.linkjb.servicebase.pojo

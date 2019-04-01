@@ -15,7 +15,7 @@ import java.util.UUID;
  * @data 2019/4/1 14:53
  * @Useage
  */
-@Component
+//@Component
 public class Producer implements RabbitTemplate.ConfirmCallback {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     //由于rabbitTemplate的scope属性设置为ConfigurableBeanFactory.SCOPE_PROTOTYPE，所以不能自动注入
@@ -35,7 +35,12 @@ public class Producer implements RabbitTemplate.ConfirmCallback {
 
 
     @Override
-    public void confirm(CorrelationData correlationData, boolean b, String s) {
-
+    public void confirm(CorrelationData correlationData, boolean ack, String cause) {
+        logger.info(" 回调id:" + correlationData);
+        if(ack){
+            logger.info("信息消费成功");
+        }else{
+            logger.info("消费失败"+cause);
+        }
     }
 }
