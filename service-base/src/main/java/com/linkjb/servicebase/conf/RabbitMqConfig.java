@@ -13,12 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * RabbitMq配置
- * @author zhuzhe
- * @date 2018/5/25 13:37
- * @email 1529949535@qq.com
- */
+/*
+ * @Author sharkshen
+ * @Description  RabbitMq配置
+ * @Date  2019/4/2
+ * @Param 
+ * @return 
+ **/
 @Configuration
 public class RabbitMqConfig {
 

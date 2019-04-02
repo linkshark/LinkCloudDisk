@@ -1,8 +1,9 @@
 package com.linkjb.servicebase.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Media {
+public class Media implements Serializable {
     private Integer id;
 
     private String mediaName;
