@@ -36,7 +36,6 @@ public class SpiderController {
                 return;
             }
         });
-        ;
     }
     @RequestMapping(value = "/hello/{url}",method = RequestMethod.PUT)
     public void Hello(@PathVariable("url") String url) throws IOException {
