@@ -48,13 +48,9 @@ public class UserController {
         BaseResult<Boolean> result = new BaseResult<>();
 
        try{
-           //直接从redis中获取,不直接查询mysql
-          // User user = userService.getUserByUserName(userName);
+           //先从redis中获取,不直接查询mysql
            //使用redis 进行查
            String s = redisUtil.get(userName);
-           Log.info("redis中获取的值为"+s);
-           //System.out.println(s);
-
            if(s==null||s.equals(null)){
                result.setEntity(true);
                result.setStatus(ConstantSrting.STATUS_SUCCESS);
@@ -62,13 +58,10 @@ public class UserController {
            }else{
                result.setEntity(false);
                result.setStatus(ConstantSrting.STATUS_SUCCESS);
-               //throw new Exception("主动报错!牛逼坏了");
-
            }
        }catch (Exception e){
            result.setStatus(ConstantSrting.STATUS_FAIL);
            e.printStackTrace();
-           //Log.error("啦啦啦啦啦报错了====="+e.getMessage()+"=======");
        }
         return result;
     }
@@ -81,9 +74,7 @@ public class UserController {
          **/
     @PostMapping("/Login/Regist")
     public BaseResult<User> Regist(@RequestBody User user){
-        System.out.println(user);
         BaseResult<User> result = new BaseResult<>();
-
        try{
            user.setPassWord(MD5.encryptPassword(user.getPassWord(),salt));
            Integer a = userService.RegistUser(user); //a的值为sql影响的行数,一开始理解错误,是直接将id返回到对象中,所以可以直接返回对象
@@ -97,13 +88,9 @@ public class UserController {
                     entrySet) {
                    map.put(entry.getKey(), entry.getValue());
                };
-               Jedis jedis = new Jedis();
-
                redisUtil.putAll("POJO_"+user.getUserName(),map);
                Map<String, User> hashEntries= (Map)redisUtil.getHashEntries(user.getUserName() + "_pojo");
                Log.info(hashEntries.toString());
-
-
                result.setEntity(user);
                result.setStatus(ConstantSrting.STATUS_SUCCESS);
                return result;
@@ -115,6 +102,10 @@ public class UserController {
        }
         return result;
 
+    }
+    @RequestMapping(value = "/hello",method = RequestMethod.GET)
+    public String Hi(){
+            return "hello";
     }
 
     /*
