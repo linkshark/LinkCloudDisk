@@ -21,7 +21,7 @@
 
 
     <select id="getUserByUserName"  resultMap="BaseResultMap">
-		SELECT * FROM user WHERE userName = #{userName}
+		SELECT * FROM user WHERE user_name = #{userName}
 	</select>
     <insert id="RegistUser"  parameterType="com.linkjb.serviceregist.entity.User" useGeneratedKeys="true" keyProperty="id">
         insert into user(user_name,pass_word,create_time) values(#{userName},#{passWord},#{createTime})

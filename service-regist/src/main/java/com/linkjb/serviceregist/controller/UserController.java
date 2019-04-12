@@ -26,7 +26,7 @@ import java.util.*;
  */
 //@CrossOrigin(origins = "localhost:8078", maxAge = 3600)
 @RestController
-@RequestMapping("/User")
+@RequestMapping
 public class UserController {
     //日志记录
     private static Logger Log = LoggerFactory.getLogger(UserController.class);
@@ -43,12 +43,9 @@ public class UserController {
      * @Param [userName]
      * @return com.linkjb.base.BaseResult<java.lang.Boolean>
      **/
-    @PostMapping("/Login/checkUserName")
+    @PostMapping("/User/checkUserName")
     public BaseResult<Boolean> checkUserNameUinque(@RequestParam("userName") String userName){
-        //System.out.println(userName);
-        //Log.info("接近目标中...");
         BaseResult<Boolean> result = new BaseResult<>();
-
        try{
            //先从redis中获取,不直接查询mysql
            //使用redis 进行查
@@ -74,15 +71,11 @@ public class UserController {
          * @Param [user]
          * @return com.linkjb.base.BaseResult<com.linkjb.entity.User>
          **/
-    @PostMapping("/Login/Regist")
-    public BaseResult<User> Regist(@RequestBody Map<String,Object> map1){
+    @RequestMapping(value="/User/Regist",method = RequestMethod.POST)
+    public BaseResult<User> Regist(@RequestBody User user){
 
         BaseResult<User> result = new BaseResult<>();
        try{
-           User user = new User();
-           BeanMap beanMap = BeanMap.create(user);
-           beanMap.putAll(map1);
-
            user.setPassWord(MD5.encryptPassword(user.getPassWord(),salt));
            Integer a = userService.RegistUser(user); //a的值为sql影响的行数,一开始理解错误,是直接将id返回到对象中,所以可以直接返回对象
            if(a.equals(1)){
@@ -96,7 +89,7 @@ public class UserController {
                    map.put(entry.getKey(), entry.getValue());
                };
                redisUtil.putAll("POJO_"+user.getUserName(),map);
-               Map<String, User> hashEntries= (Map)redisUtil.getHashEntries(user.getUserName() + "_pojo");
+               Map<String, User> hashEntries= (Map)redisUtil.getHashEntries("POJO_"+user.getUserName());
                Log.info(hashEntries.toString());
                result.setEntity(user);
                result.setStatus(ConstantSrting.STATUS_SUCCESS);
@@ -106,15 +99,12 @@ public class UserController {
            }
        }catch (Exception e){
            e.printStackTrace();
+           result.setMessage(e.getMessage());
+           result.setStatus(ConstantSrting.STATUS_FAIL);
        }
         return result;
 
     }
-    @RequestMapping(value = "/hello",method = RequestMethod.GET)
-    public String Hi(){
-            return "hello";
-    }
-
     /*
      * @Author sharkshen
      * @Description  用户登录验证
@@ -122,7 +112,7 @@ public class UserController {
      * @Param [userName,passWord]
      * @return com.linkjb.base.BaseResult<com.linkjb.entity.User>
      **/
-    @PostMapping("/Login/Login")
+    @PostMapping("/User/Login")
     public BaseResult<User> Login(@RequestParam("userName") String userName, @RequestParam("passWord") String passWord){
         BaseResult<User> result = new BaseResult<>();
         try{
@@ -133,6 +123,7 @@ public class UserController {
                         //username和token 双向绑定,登录后token有效时间为60分钟
                         redisUtil.setForTimeMS(userName,user.getToken(user),1000*60*60);
                         redisUtil.setForTimeMS(user.getToken(user),userName,1000*60*60);
+                        Log.info(redisUtil.get(userName));
                         result.setStatus(ConstantSrting.STATUS_SUCCESS);
                         result.setEntity(user);
                         return result;
