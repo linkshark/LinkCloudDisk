@@ -7,6 +7,7 @@ import org.springframework.data.annotation.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import java.io.Serializable;
+import java.util.Date;
 
 public class User implements Serializable {
     private static final long serialVersionUID = 6977402643848374753L;
@@ -19,7 +20,11 @@ public class User implements Serializable {
 
     private String passWord;
 
+    private String email;
 
+    private Date createTime;
+
+    private Date updateTime;
 
 
 
@@ -56,12 +61,39 @@ public class User implements Serializable {
         return token;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", userName='" + userName + '\'' +
                 ", passWord='" + passWord + '\'' +
+                ", email='" + email + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
                 '}';
     }
 }

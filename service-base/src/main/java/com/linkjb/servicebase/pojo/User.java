@@ -1,5 +1,10 @@
 package com.linkjb.servicebase.pojo;
 
+import org.springframework.data.annotation.Id;
+
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -7,7 +12,12 @@ import java.util.Date;
  * @data 2019/3/26 15:27
  * @Useage
  */
-public class User {
+public class User implements Serializable {
+    private static final long serialVersionUID = 6977402643848374753L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     private String userName;
     private String email;
     private String passWord;

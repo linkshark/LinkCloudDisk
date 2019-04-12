@@ -9,15 +9,15 @@ spring:
     timeout: 5000ms
     pool:
       timeout: 0
-    password: shark007
+    password: buzhidao
   servlet:
     multipart:
       max-file-size:  500MB
       max-request-size: 500MB
   datasource:
     username: root
-    url: jdbc:mysql://linkjb.com:3306/linkdisk?characterEncoding=UTF-8&useSSL=false&useUnicode=true
-    password: Scq86906218
+    url: jdbc:mysql://linkjb.com:3306/mediasubscriber?characterEncoding=UTF-8&useSSL=false&useUnicode=true
+    password: bunengshuo
     driver-class-name: com.mysql.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
   application:
@@ -30,6 +30,7 @@ mybatis:
   mapper-locations: classpath:mapper/*.xml
   configuration:
     map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 ########## 通用Mapper ##########
 mapper:
   identity: MYSQL

@@ -46,6 +46,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
+        <dependency>
+            <groupId>javax.persistence</groupId>
+            <artifactId>persistence-api</artifactId>
+            <version>1.0</version>
+            <scope>compile</scope>
+        </dependency>
 
     </dependencies>
 
@@ -79,7 +85,7 @@
                     <!--允许自动覆盖文件-->
                     <overwrite>true</overwrite>
                     <configurationFile>
-                        src/main/resources/mybatis-generator.xml
+                        ../service-regist/src/main/resources/mybatis-generator.xml
                     </configurationFile>
                 </configuration>
             </plugin>

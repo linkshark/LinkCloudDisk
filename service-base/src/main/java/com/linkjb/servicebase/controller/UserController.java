@@ -1,5 +1,7 @@
 package com.linkjb.servicebase.controller;
 
+import com.linkjb.servicebase.pojo.User;
+import com.linkjb.servicebase.response.CommonReturnType;
 import com.linkjb.servicebase.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +33,6 @@ public class UserController {
            userService.getLinkMedia(orderNo);
         return "Test ThreadPoolExecutor start!";
     }
-
     /**
      * 停止服务
      * @param id
@@ -46,5 +47,9 @@ public class UserController {
         log.info("关闭了线程服务，还有未处理的信息条数：" + q.size());
         return "Test ThreadPoolExecutor stop";
     }
+
+
+
+
 
 }

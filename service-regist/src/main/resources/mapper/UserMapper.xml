@@ -10,19 +10,27 @@
         <!--<result property="passWord" column="pass_word"/>-->
         <!--<result property="id" column="id"/>-->
     <!--</resultMap>-->
+    <resultMap id="BaseResultMap" type="com.linkjb.serviceregist.entity.User">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="user_name" jdbcType="VARCHAR" property="userName" />
+        <result column="pass_word" jdbcType="VARCHAR" property="passWord" />
+        <result column="create_time" jdbcType="DATE" property="createTime" />
+        <result column="update_Time" jdbcType="DATE" property="updateTime" />
+    </resultMap>
 
 
-    <select id="getUserByUserName"  resultType="com.linkjb.serviceregist.entity.User">
+
+    <select id="getUserByUserName"  resultMap="BaseResultMap">
 		SELECT * FROM user WHERE userName = #{userName}
 	</select>
     <insert id="RegistUser"  parameterType="com.linkjb.serviceregist.entity.User" useGeneratedKeys="true" keyProperty="id">
-        insert into user(userName,passWord) values(#{userName},#{passWord})
+        insert into user(user_name,pass_word,create_time) values(#{userName},#{passWord},#{createTime})
         <!-- 指定结果类型resultType，keyProperty是属性，自动返回到属性id中，order是次序，after是指获取id是在于插入后 -->
         <!--<selectKey resultType="int" keyProperty="id" order="AFTER">-->
             <!--select last_insert_id()-->
         <!--</selectKey>-->
     </insert>
-    <select id="getAllUser" resultType="com.linkjb.serviceregist.entity.User">
+    <select id="getAllUser" resultMap="BaseResultMap">
         select * from user
     </select>
 

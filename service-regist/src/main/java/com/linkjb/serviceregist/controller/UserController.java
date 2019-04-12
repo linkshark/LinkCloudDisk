@@ -11,7 +11,9 @@ import com.linkjb.serviceregist.utils.MD5;
 import com.linkjb.serviceregist.utils.RedisUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.beans.BeanMap;
 import org.springframework.web.bind.annotation.*;
 import redis.clients.jedis.Jedis;
 
@@ -73,9 +75,14 @@ public class UserController {
          * @return com.linkjb.base.BaseResult<com.linkjb.entity.User>
          **/
     @PostMapping("/Login/Regist")
-    public BaseResult<User> Regist(@RequestBody User user){
+    public BaseResult<User> Regist(@RequestBody Map<String,Object> map1){
+
         BaseResult<User> result = new BaseResult<>();
        try{
+           User user = new User();
+           BeanMap beanMap = BeanMap.create(user);
+           beanMap.putAll(map1);
+
            user.setPassWord(MD5.encryptPassword(user.getPassWord(),salt));
            Integer a = userService.RegistUser(user); //a的值为sql影响的行数,一开始理解错误,是直接将id返回到对象中,所以可以直接返回对象
            if(a.equals(1)){
