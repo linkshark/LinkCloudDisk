@@ -33,5 +33,21 @@
     <select id="getAllUser" resultMap="BaseResultMap">
         select * from user
     </select>
+    <update id="updateUser" parameterType="com.linkjb.serviceregist.entity.User">
+        <if test="id!=null">
+            update user
+           <!-- set能智能去掉最后一个 , -->
+            <set>
+                <if test="userName!=null and userName!=''">user_name=#{userName},</if>
+                <if test="passWord!=null and passWord!=''">pass_word=#{passWord},</if>
+                <if test="email!=null and email!=''">email=#{email},</if>
+                    <!-- <if test="updateTime!=null and updateTime!=''">update_time=#{updateTime},</if>-->
+                <if test="1==1">update_time=#{updateTime},</if>
+
+            </set>
+            where id=#{id};
+        </if>
+
+    </update>
 
 </mapper>

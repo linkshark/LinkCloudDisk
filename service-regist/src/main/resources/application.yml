@@ -9,7 +9,7 @@ spring:
     timeout: 5000ms
     pool:
       timeout: 0
-    password: bunengshuo
+    password: buqingchu
   servlet:
     multipart:
       max-file-size:  500MB

@@ -96,6 +96,7 @@ public class UserController {
                return result;
            }else{
                result.setStatus(ConstantSrting.STATUS_FAIL);
+               result.setMessage("注册失败");
            }
        }catch (Exception e){
            e.printStackTrace();
@@ -113,8 +114,8 @@ public class UserController {
      * @return com.linkjb.base.BaseResult<com.linkjb.entity.User>
      **/
     @PostMapping("/User/Login")
-    public BaseResult<User> Login(@RequestParam("userName") String userName, @RequestParam("passWord") String passWord){
-        BaseResult<User> result = new BaseResult<>();
+    public BaseResult<String> Login(@RequestParam("userName") String userName, @RequestParam("passWord") String passWord){
+        BaseResult<String> result = new BaseResult<>();
         try{
                 User user = userService.getUserByUserName(userName);
                 if(user!=null){
@@ -125,7 +126,8 @@ public class UserController {
                         redisUtil.setForTimeMS(user.getToken(user),userName,1000*60*60);
                         Log.info(redisUtil.get(userName));
                         result.setStatus(ConstantSrting.STATUS_SUCCESS);
-                        result.setEntity(user);
+                        result.setEntity(redisUtil.get(userName));
+                        result.setMessage("获取Token成功,有效时间为60min");
                         return result;
                     }else{
                         result.setStatus(ConstantSrting.STATUS_FAIL);
@@ -144,6 +146,50 @@ public class UserController {
         }
         return result;
     }
+
+   @GetMapping("/User/checkToken")
+    public BaseResult<Map> checkToken(@RequestParam("token") String token){
+        BaseResult<Map> result = new BaseResult();
+        try{
+            String returnUserName = redisUtil.get(token);
+            if("".equals(returnUserName)||returnUserName==null){
+               result.setStatus(ConstantSrting.STATUS_other);
+               result.setMessage("token错误或已过期,请重新获取");
+            }else{
+                Map<String, User> hashEntries= (Map)redisUtil.getHashEntries("POJO_"+returnUserName);
+                result.setEntity(hashEntries);
+                result.setStatus(ConstantSrting.STATUS_SUCCESS);
+                result.setMessage("token登录成功");
+            }
+        }catch (Exception e){
+            Log.error(e.getMessage());
+            result.setStatus(ConstantSrting.STATUS_FAIL);
+            result.setMessage(e.getMessage());
+        }
+       return result;
+   }
+
+   @PutMapping("/User/Update")
+    public BaseResult<Boolean> UpdateUser(@RequestBody User user){
+        BaseResult<Boolean> result = new BaseResult();
+        try{
+            if(!("".equals(user.getPassWord())||user.getPassWord()==null)){
+                user.setPassWord(MD5.encryptPassword(user.getPassWord(),salt));
+            }
+            user.setUpdateTime(new Date());
+            userService.update(user);
+            result.setEntity(true);
+            result.setMessage("更新成功");
+            result.setStatus(ConstantSrting.STATUS_SUCCESS);
+        }catch(Exception e){
+            Log.error(e.getMessage());
+            result.setMessage(e.getMessage());
+            result.setStatus(ConstantSrting.STATUS_FAIL);
+        }
+        return result;
+   }
+
+
 
 
 }

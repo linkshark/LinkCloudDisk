@@ -23,4 +23,6 @@ public interface UserDao extends BaseMapper<User> {
 
     @Select(value = "select * from user where id = #{userId}")
     User findUserById(@Param("userId") String userId);
+
+    void updateUser(User user);
 }
