@@ -5,6 +5,7 @@
 引入 Zuul网关 作为反向代理并配置登录拦截 
 
 如何使用:
+
 1:首先导入根目录下的sql文件建库建表(mysql)
 
 2:开启eureka-server项目,开启eureka-server组件作为服务的注册
