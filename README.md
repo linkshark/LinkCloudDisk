@@ -6,5 +6,7 @@
 
 如何使用:
 1:首先导入根目录下的sql文件建库建表(mysql)
+
 2:开启eureka-server项目,开启eureka-server组件作为服务的注册
+
 3:配置redis环境并将相关配置写入到application.yml中,开启service-regist,作为eureka-client向eureka-server注册自己的服务,并请求监管 
