@@ -9,7 +9,7 @@ spring:
     timeout: 5000ms
     pool:
       timeout: 0
-    password: buqingchu
+    password: Shark1996
   servlet:
     multipart:
       max-file-size:  500MB
@@ -17,7 +17,7 @@ spring:
   datasource:
     username: root
     url: jdbc:mysql://106.14.218.153:3306/mediasubscriber?characterEncoding=UTF-8&useSSL=false&useUnicode=true
-    password: buzhidao
+    password: Scq13606601268
     driver-class-name: com.mysql.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
   application:

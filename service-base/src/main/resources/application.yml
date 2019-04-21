@@ -10,7 +10,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
-    password: zhendebunengshuo
+    password: Scq13606601268
     url: jdbc:mysql://linkjb.com:3306/mediasubscriber?characterEncoding=utf8
     type: com.alibaba.druid.pool.DruidDataSource
 
@@ -21,10 +21,10 @@ spring:
   ##    password: rcp
   ##    data-username:
   rabbitmq:
-    host: www.linkjb.com
+    host: localhost
     port: 5672
-    username: bunengshuo
-    password: zhendebunengshuo
+    username: guest
+    password: guest
     publisher-confirms: true #  消息发送到交换机确认机制,是否确认回调
 
 mybatis:
