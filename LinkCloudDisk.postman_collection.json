@@ -155,13 +155,27 @@
 							"name": "/Book/{token}/{mediaId}",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMiJ9.We25sV9L7zpVsk9NMIZf4GzjngYpWD7ZySyrvHpaK8s",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": ""
 								},
 								"url": {
-									"raw": ""
+									"raw": "localhost:1001/Book/32",
+									"host": [
+										"localhost"
+									],
+									"port": "1001",
+									"path": [
+										"Book",
+										"32"
+									]
 								}
 							},
 							"response": []
