@@ -16,11 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.Map;
 
-/**
- * @author sharkshen
- * @data 2019/4/21 15:36
- * @Useage
- */
+
+
 @RestController
 public class BookController {
     private static Logger log = LoggerFactory.getLogger(BookController.class);
@@ -33,8 +30,16 @@ public class BookController {
 
     private static String salt = "sharkshen";
 
-    @GetMapping("/Book/{token}/{mediaId}")
-    public BaseResult Book(@PathVariable String token,@PathVariable String mediaId){
+    /**
+     *功能描述
+     * @author shark
+     * @date 2019/4/21
+     * @param  * @param token
+     * @param mediaId
+     * @return com.linkjb.serviceregist.base.BaseResult
+     */
+    @GetMapping("/Book/{mediaId}")
+    public BaseResult Book(@RequestHeader String token,@PathVariable String mediaId){
         BaseResult re = new BaseResult();
                 try{
                     String returnUserName = redisUtil.get(token);
@@ -43,10 +48,10 @@ public class BookController {
                         re.setStatus(ConstantSrting.STATUS_FAIL);
                         return re;
                     }else{
-                        Map<String, Object> hashEntries = (Map)redisUtil.getHashEntries("POJO_"+returnUserName);
+                        Map<Object, Object> hashEntries = redisUtil.getHashEntries("POJO_"+returnUserName);
                         Integer id = (Integer)hashEntries.get("id");
                         UserLinkMedia link = new UserLinkMedia();
-                        link.setUserId(Integer.valueOf(id));
+                        link.setUserId(id);
                         link.setMediaId(Integer.valueOf(mediaId));
                         userLinkMediaService.Insert(link);
                         re.setStatus(ConstantSrting.STATUS_SUCCESS);
