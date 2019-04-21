@@ -69,3 +69,18 @@ CREATE TABLE `user` (
   `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for user_link_media
+-- ----------------------------
+DROP TABLE IF EXISTS `user_link_media`;
+CREATE TABLE `user_link_media` (
+  `user_id` int(11) NOT NULL,
+  `media_id` int(11) NOT NULL,
+  PRIMARY KEY (`user_id`,`media_id`),
+  KEY `media_id` (`media_id`),
+  CONSTRAINT `user_link_media_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
+  CONSTRAINT `user_link_media_ibfk_2` FOREIGN KEY (`media_id`) REFERENCES `media` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

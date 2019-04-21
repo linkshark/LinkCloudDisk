@@ -50,7 +50,7 @@ public class UserController {
            //先从redis中获取,不直接查询mysql
            //使用redis 进行查
            String s = redisUtil.get(userName);
-           if(s==null||s.equals(null)){
+           if(s==null||"".equals(s)){
                result.setEntity(true);
                result.setStatus(ConstantSrting.STATUS_SUCCESS);
                return result;
@@ -76,28 +76,35 @@ public class UserController {
 
         BaseResult<User> result = new BaseResult<>();
        try{
-           user.setPassWord(MD5.encryptPassword(user.getPassWord(),salt));
-           Integer a = userService.RegistUser(user); //a的值为sql影响的行数,一开始理解错误,是直接将id返回到对象中,所以可以直接返回对象
-           if(a.equals(1)){
-               redisUtil.set(user.getUserName(),user.getPassWord());
-               //实体类转map
-               JSONObject jsonObject  = (JSONObject)JSON.toJSON(user);
-               Set<Map.Entry<String,Object>> entrySet = jsonObject.entrySet();
-               Map<String,Object> map = new HashMap<>();
-               for (Map.Entry<String,Object> entry:
-                    entrySet) {
-                   map.put(entry.getKey(), entry.getValue());
-               };
-               redisUtil.putAll("POJO_"+user.getUserName(),map);
-               Map<String, User> hashEntries= (Map)redisUtil.getHashEntries("POJO_"+user.getUserName());
-               Log.info(hashEntries.toString());
-               result.setEntity(user);
-               result.setStatus(ConstantSrting.STATUS_SUCCESS);
-               return result;
-           }else{
+           User userByUserName = userService.getUserByUserName(user.getUserName());
+           if(userByUserName!=null){
                result.setStatus(ConstantSrting.STATUS_FAIL);
-               result.setMessage("注册失败");
+               result.setMessage("已存在相同用户名的用户,请重新选择");
+           }else{
+               user.setPassWord(MD5.encryptPassword(user.getPassWord(),salt));
+               Integer a = userService.RegistUser(user); //a的值为sql影响的行数,一开始理解错误,是直接将id返回到对象中,所以可以直接返回对象
+               if(a.equals(1)){
+                   redisUtil.set(user.getUserName(),user.getPassWord());
+                   //实体类转map
+                   JSONObject jsonObject  = (JSONObject)JSON.toJSON(user);
+                   Set<Map.Entry<String,Object>> entrySet = jsonObject.entrySet();
+                   Map<String,Object> map = new HashMap<>();
+                   for (Map.Entry<String,Object> entry:
+                           entrySet) {
+                       map.put(entry.getKey(), entry.getValue());
+                   }
+                   redisUtil.putAll("POJO_"+user.getUserName(),map);
+                   Map<String, User> hashEntries= (Map)redisUtil.getHashEntries("POJO_"+user.getUserName());
+                   Log.info(hashEntries.toString());
+                   result.setEntity(user);
+                   result.setStatus(ConstantSrting.STATUS_SUCCESS);
+                   return result;
+               }else{
+                   result.setStatus(ConstantSrting.STATUS_FAIL);
+                   result.setMessage("注册失败");
+               }
            }
+
        }catch (Exception e){
            e.printStackTrace();
            result.setMessage(e.getMessage());
@@ -178,6 +185,16 @@ public class UserController {
             }
             user.setUpdateTime(new Date());
             userService.update(user);
+            redisUtil.set(user.getUserName(),user.getPassWord());
+            //实体类转map
+            JSONObject jsonObject  = (JSONObject)JSON.toJSON(user);
+            Set<Map.Entry<String,Object>> entrySet = jsonObject.entrySet();
+            Map<String,Object> map = new HashMap<>();
+            for (Map.Entry<String,Object> entry:
+                    entrySet) {
+                map.put(entry.getKey(), entry.getValue());
+            }
+            redisUtil.putAll("POJO_"+user.getUserName(),map);
             result.setEntity(true);
             result.setMessage("更新成功");
             result.setStatus(ConstantSrting.STATUS_SUCCESS);
@@ -188,6 +205,8 @@ public class UserController {
         }
         return result;
    }
+
+
 
 
 
