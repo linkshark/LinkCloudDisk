@@ -1,0 +1,175 @@
+{
+	"info": {
+		"_postman_id": "b3c89e63-e372-456d-a1ce-e6b280f259c0",
+		"name": "LinkCloudDisk",
+		"description": "LinkCloudDisk",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "service-regist",
+			"item": [
+				{
+					"name": "UserController",
+					"item": [
+						{
+							"name": "/User/Regist",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"userName\" : \"熊哥\",\n\t\"passWord\" : \"123456\"\n}"
+								},
+								"url": {
+									"raw": "localhost:1001/User/Regist",
+									"host": [
+										"localhost"
+									],
+									"port": "1001",
+									"path": [
+										"User",
+										"Regist"
+									]
+								},
+								"description": "注册用户"
+							},
+							"response": []
+						},
+						{
+							"name": "/User/Login",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "userName",
+											"value": "熊哥",
+											"type": "text"
+										},
+										{
+											"key": "passWord",
+											"value": "123456",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "localhost:1001/User/Login",
+									"host": [
+										"localhost"
+									],
+									"port": "1001",
+									"path": [
+										"User",
+										"Login"
+									]
+								},
+								"description": "用户登录"
+							},
+							"response": []
+						},
+						{
+							"name": "/User/checkToken",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "localhost:1001/User/checkToken?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMiJ9.We25sV9L7zpVsk9NMIZf4GzjngYpWD7ZySyrvHpaK8s",
+									"host": [
+										"localhost"
+									],
+									"port": "1001",
+									"path": [
+										"User",
+										"checkToken"
+									],
+									"query": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMiJ9.We25sV9L7zpVsk9NMIZf4GzjngYpWD7ZySyrvHpaK8s"
+										}
+									]
+								},
+								"description": "验证token"
+							},
+							"response": []
+						},
+						{
+							"name": "/User/Update",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"id\" : \"21\",\n\t\"userName\" : \"熊哥更新\",\n\t\"passWord\" : \"15968100598\"\n}"
+								},
+								"url": {
+									"raw": "localhost:1001/User/Update",
+									"host": [
+										"localhost"
+									],
+									"port": "1001",
+									"path": [
+										"User",
+										"Update"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "BookController",
+					"item": [
+						{
+							"name": "/Book/{token}/{mediaId}",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": ""
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			]
+		}
+	]
+}
