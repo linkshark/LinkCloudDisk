@@ -1,5 +1,7 @@
 package com.linkjb.serviceregist.entity;
 
+import java.util.Date;
+
 /**
  * @author sharkshen
  * @data 2019/4/21 16:40
@@ -8,6 +10,7 @@ package com.linkjb.serviceregist.entity;
 public class UserLinkMedia {
     private Integer userId;
     private Integer mediaId;
+    private Date subScribeTime;
 
     public Integer getUserId() {
         return userId;
@@ -25,11 +28,20 @@ public class UserLinkMedia {
         this.mediaId = mediaId;
     }
 
+    public Date getSubScribeTime() {
+        return subScribeTime;
+    }
+
+    public void setSubScribeTime(Date subScribeTime) {
+        this.subScribeTime = subScribeTime;
+    }
+
     @Override
     public String toString() {
         return "UserLinkMedia{" +
                 "userId=" + userId +
                 ", mediaId=" + mediaId +
+                ", subScribeTime=" + subScribeTime +
                 '}';
     }
 }

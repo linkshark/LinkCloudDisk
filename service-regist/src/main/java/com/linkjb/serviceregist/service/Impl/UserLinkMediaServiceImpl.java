@@ -21,4 +21,15 @@ public class UserLinkMediaServiceImpl implements UserLinkMediaService {
     public void Insert(UserLinkMedia media) {
         userLinkMediaDao.insert(media);
     }
+
+    @Override
+    public void delete(UserLinkMedia media) {
+        userLinkMediaDao.delete(media);
+    }
+
+    @Override
+    public UserLinkMedia selectByOne(UserLinkMedia link) {
+        return userLinkMediaDao.selectOne(link);
+    }
+
 }

@@ -9,4 +9,8 @@ import com.linkjb.serviceregist.entity.UserLinkMedia;
  */
 public interface UserLinkMediaService {
     void Insert(UserLinkMedia media);
+
+    void delete(UserLinkMedia media);
+
+    UserLinkMedia selectByOne(UserLinkMedia link);
 }
