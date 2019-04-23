@@ -40,10 +40,11 @@ public class BookController {
      * @return com.linkjb.serviceregist.base.BaseResult
      */
     @GetMapping("/Book/{mediaId}")
-    public BaseResult Book(@RequestHeader String token,@PathVariable String mediaId){
+    @AuthToken
+    public BaseResult Book(@RequestHeader String Authorization,@PathVariable String mediaId){
         BaseResult re = new BaseResult();
                 try{
-                    String returnUserName = redisUtil.get(token);
+                    String returnUserName = redisUtil.get(Authorization);
                     if("".equals(returnUserName)||returnUserName==null){
                         re.setMessage("token验证失败,请重新获取");
                         re.setStatus(ConstantSrting.STATUS_FAIL);
@@ -69,10 +70,11 @@ public class BookController {
 
     }
     @DeleteMapping("/Book/{mediaId}")
-    public BaseResult UnBook(@RequestHeader String token,@PathVariable String mediaId){
+    @AuthToken
+    public BaseResult UnBook(@RequestHeader String Authorization,@PathVariable String mediaId){
         BaseResult re = new BaseResult();
         try{
-            String returnUserName = redisUtil.get(token);
+            String returnUserName = redisUtil.get(Authorization);
             if("".equals(returnUserName)||returnUserName==null){
                 re.setMessage("token验证失败,请重新获取");
                 re.setStatus(ConstantSrting.STATUS_FAIL);
@@ -103,10 +105,10 @@ public class BookController {
 
     @GetMapping("/Book/getAllBook")
     @AuthToken
-    public BaseResult<List<Map<String,Object>>> getAllBook(@RequestHeader String token){
+    public BaseResult<List<Map<String,Object>>> getAllBook(@RequestHeader String Authorization){
         BaseResult<List<Map<String,Object>>> result = new BaseResult<>();
         try{
-            String returnUserName = redisUtil.get(token);
+            String returnUserName = redisUtil.get(Authorization);
             if("".equals(returnUserName)||returnUserName==null){
                 result.setMessage("token验证失败,请重新获取");
                 result.setStatus(ConstantSrting.STATUS_FAIL);

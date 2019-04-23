@@ -11,11 +11,9 @@ import com.linkjb.serviceregist.utils.MD5;
 import com.linkjb.serviceregist.utils.RedisUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.beans.BeanMap;
 import org.springframework.web.bind.annotation.*;
-import redis.clients.jedis.Jedis;
+
 
 import java.util.*;
 
@@ -81,7 +79,8 @@ public class UserController {
                result.setStatus(ConstantSrting.STATUS_FAIL);
                result.setMessage("已存在相同用户名的用户,请重新选择");
            }else{
-               user.setPassWord(MD5.encryptPassword(user.getPassWord(),salt));
+               String userPass = user.getPassWord();
+               user.setPassWord(MD5.encryptPassword(userPass,salt));
                Integer a = userService.RegistUser(user); //a的值为sql影响的行数,一开始理解错误,是直接将id返回到对象中,所以可以直接返回对象
                if(a.equals(1)){
                    redisUtil.set(user.getUserName(),user.getPassWord());
@@ -127,6 +126,7 @@ public class UserController {
                 User user = userService.getUserByUserName(userName);
                 if(user!=null){
                     String checkPass = user.getPassWord();
+                    String a = MD5.encryptPassword(passWord,salt);
                     if(MD5.encryptPassword(passWord,salt).equals(checkPass)){
                         //username和token 双向绑定,登录后token有效时间为60分钟
                         redisUtil.setForTimeMS(userName,user.getToken(user),1000*60*60);
@@ -157,10 +157,10 @@ public class UserController {
     }
 
    @GetMapping("/User/checkToken")
-    public BaseResult<Map> checkToken(@RequestParam("token") String token){
+    public BaseResult<Map> checkToken(@RequestHeader String Authorization){
         BaseResult<Map> result = new BaseResult();
         try{
-            String returnUserName = redisUtil.get(token);
+            String returnUserName = redisUtil.get(Authorization);
             if("".equals(returnUserName)||returnUserName==null){
                result.setStatus(ConstantSrting.STATUS_other);
                result.setMessage("token错误或已过期,请重新获取");
@@ -179,6 +179,7 @@ public class UserController {
    }
 
    @PutMapping("/User/Update")
+   @AuthToken
     public BaseResult<Boolean> UpdateUser(@RequestBody User user){
         BaseResult<Boolean> result = new BaseResult();
         try{

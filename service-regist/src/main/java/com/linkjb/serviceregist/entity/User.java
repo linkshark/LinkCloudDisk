@@ -3,6 +3,7 @@ package com.linkjb.serviceregist.entity;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
 
 import javax.persistence.GeneratedValue;
@@ -19,7 +20,7 @@ public class User implements Serializable {
 
     private String userName;
 
-    @JsonIgnore //指定字段不返回
+//    @JsonIgnore //指定字段不返回
     private String passWord;
 
     private String email;
@@ -45,11 +46,11 @@ public class User implements Serializable {
     public void setUserName(String userName) {
         this.userName = userName == null ? null : userName.trim();
     }
-
+    @JsonIgnore
     public String getPassWord() {
         return passWord;
     }
-
+    @JsonProperty
     public void setPassWord(String passWord) {
         this.passWord = passWord == null ? null : passWord.trim();
     }
