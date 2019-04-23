@@ -7,6 +7,8 @@ import com.linkjb.serviceregist.service.UserLinkMediaService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author sharkshen
@@ -30,6 +32,11 @@ public class UserLinkMediaServiceImpl implements UserLinkMediaService {
     @Override
     public UserLinkMedia selectByOne(UserLinkMedia link) {
         return userLinkMediaDao.selectOne(link);
+    }
+
+    @Override
+    public List<Map<String, Object>> getAllBook(Integer id) {
+        return userLinkMediaDao.getAllBook(id);
     }
 
 }

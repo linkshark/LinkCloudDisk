@@ -9,7 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.messaging.handler.HandlerMethod;
+import org.springframework.stereotype.Component;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -24,13 +25,14 @@ import java.util.concurrent.TimeUnit;
  * @data 2019/1/24 11:09
  * @Useage
  */
+@Component
 public class AuthenticationInterceptor implements HandlerInterceptor {
     //日志记录
     private static Logger log = LoggerFactory.getLogger(AuthenticationInterceptor.class);
     @Autowired
     RedisUtil redisUtil;
     //存放鉴权信息的Header名称，默认是Authorization
-    private String httpHeaderName = "Authorization";
+    private String httpHeaderName = "Authorization";//Authorization
 
     //鉴权失败后返回的错误信息，默认为401 unauthorized
     private String unauthorizedErrorMessage = "401 unauthorized";
@@ -45,7 +47,8 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 //    预处理回调方法,实现处理器的预处理，第三个参数为响应的处理器,自定义Controller,返回值为true表示继续流程（如调用下一个拦截器或处理器）
 //    或者接着执行postHandle()和afterCompletion()；false表示流程中断，不会继续调用其他的拦截器或处理器，中断执行。
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        if (!(handler instanceof HandlerMethod)) {
+        log.info(handler.getClass().toString());
+        if (!(handler instanceof org.springframework.web.method.HandlerMethod)) {
             return true;
         }
         HandlerMethod handlerMethod = (HandlerMethod) handler;
@@ -54,7 +57,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         // 如果打上了AuthToken注解则需要验证token
         if (method.getAnnotation(AuthToken.class) != null || handlerMethod.getBeanType().getAnnotation(AuthToken.class) != null) {
 
-            String token = request.getParameter(httpHeaderName);
+            String token = request.getHeader(httpHeaderName);
             log.info("Get token from request is {} ", token);
             String username = "";
 
@@ -63,7 +66,8 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                 log.info("Get username from Redis is {}", username);
             }
             if (username != null && !username.trim().equals("")) {
-                Long tokeBirthTime = Long.valueOf(redisUtil.get(token + username));
+                log.info((String)redisUtil.get(username+token));
+                Long tokeBirthTime = Long.valueOf((String)redisUtil.get(username+token));
                 log.info("token Birth time is: {}", tokeBirthTime);
                 Long diff = System.currentTimeMillis() - tokeBirthTime;
                 log.info("token is exist : {} ms", diff);

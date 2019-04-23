@@ -1,5 +1,6 @@
 package com.linkjb.serviceregist.controller;
 
+import com.linkjb.serviceregist.annotation.AuthToken;
 import com.linkjb.serviceregist.base.BaseResult;
 import com.linkjb.serviceregist.base.ConstantSrting;
 import com.linkjb.serviceregist.entity.UserLinkMedia;
@@ -10,7 +11,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 
@@ -95,6 +99,31 @@ public class BookController {
         }
         return re;
 
+    }
+
+    @GetMapping("/Book/getAllBook")
+    @AuthToken
+    public BaseResult<List<Map<String,Object>>> getAllBook(@RequestHeader String token){
+        BaseResult<List<Map<String,Object>>> result = new BaseResult<>();
+        try{
+            String returnUserName = redisUtil.get(token);
+            if("".equals(returnUserName)||returnUserName==null){
+                result.setMessage("token验证失败,请重新获取");
+                result.setStatus(ConstantSrting.STATUS_FAIL);
+            }else{
+                Map<Object, Object> hashEntries = redisUtil.getHashEntries("POJO_"+returnUserName);
+                Integer id = (Integer)hashEntries.get("id");
+                List<Map<String,Object>> resultList = new ArrayList<>();
+                resultList = userLinkMediaService.getAllBook(id);
+                result.setEntity(resultList);
+                result.setStatus(ConstantSrting.STATUS_SUCCESS);
+            }
+        }catch (Exception e){
+                result.setMessage(e.getMessage());
+                result.setStatus(ConstantSrting.STATUS_FAIL);
+                log.error(e.getMessage());
+        }
+        return result;
     }
 
 

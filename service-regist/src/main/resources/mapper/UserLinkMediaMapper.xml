@@ -7,6 +7,22 @@
         <result column="media_id" jdbcType="INTEGER" property="mediaId" />
     </resultMap>
 
+    <select id="getAllBook" resultType="java.util.HashMap">
+        select u.id as userId,u.user_name as userName,ulm.media_id as mediaId,m.media_name as mediaName,m.image as image,ml.url_name as urlName,ml.url_address as urlAddress
+        from
+        `user` u,media m,media_link ml,user_link_media ulm
+        where
+        u.id = ulm.user_id
+        and
+        ulm.media_id = m.id
+        and
+        ml.link_id = m.id
+        and
+        u.id = #{id}
+        GROUP BY
+        urlName
+    </select>
+
 
 
 </mapper>

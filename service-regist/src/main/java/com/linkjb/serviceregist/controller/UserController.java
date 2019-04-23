@@ -131,7 +131,9 @@ public class UserController {
                         //username和token 双向绑定,登录后token有效时间为60分钟
                         redisUtil.setForTimeMS(userName,user.getToken(user),1000*60*60);
                         redisUtil.setForTimeMS(user.getToken(user),userName,1000*60*60);
-                        Log.info(redisUtil.get(userName));
+                        redisUtil.set(userName+user.getToken(user),String.valueOf(System.currentTimeMillis()));
+                        Log.info(redisUtil.get(userName+user.getToken(user)).toString());
+                        //Log.info(redisUtil.get(userName));
                         result.setStatus(ConstantSrting.STATUS_SUCCESS);
                         result.setEntity(redisUtil.get(userName));
                         result.setMessage("获取Token成功,有效时间为60min");
