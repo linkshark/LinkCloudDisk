@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
+import java.util.concurrent.TimeUnit;
 
 
 @RestController
@@ -102,7 +102,6 @@ public class BookController {
         return re;
 
     }
-
     @GetMapping("/Book/getAllBook")
     @AuthToken
     public BaseResult<List<Map<String,Object>>> getAllBook(@RequestHeader String Authorization){
@@ -116,7 +115,10 @@ public class BookController {
                 Map<Object, Object> hashEntries = redisUtil.getHashEntries("POJO_"+returnUserName);
                 Integer id = (Integer)hashEntries.get("id");
                 List<Map<String,Object>> resultList = new ArrayList<>();
-                resultList = userLinkMediaService.getAllBook(id);
+                //阻塞调用
+                resultList = userLinkMediaService.getAllBook(id).get();
+                //超时调用
+                //resultList = userLinkMediaService.getAllBook(id).get(1, TimeUnit.SECONDS);
                 result.setEntity(resultList);
                 result.setStatus(ConstantSrting.STATUS_SUCCESS);
             }

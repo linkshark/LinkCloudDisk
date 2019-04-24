@@ -1,6 +1,7 @@
 package com.linkjb.serviceregist.service;
 
 import com.linkjb.serviceregist.entity.UserLinkMedia;
+import org.springframework.util.concurrent.ListenableFuture;
 
 import java.util.List;
 import java.util.Map;
@@ -11,11 +12,12 @@ import java.util.Map;
  * @Useage
  */
 public interface UserLinkMediaService {
+
     void Insert(UserLinkMedia media);
 
     void delete(UserLinkMedia media);
 
     UserLinkMedia selectByOne(UserLinkMedia link);
 
-    List<Map<String, Object>> getAllBook(Integer id);
+    ListenableFuture<List<Map<String, Object>>> getAllBook(Integer id);
 }

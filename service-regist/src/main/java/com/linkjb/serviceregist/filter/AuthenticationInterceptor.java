@@ -47,7 +47,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 //    预处理回调方法,实现处理器的预处理，第三个参数为响应的处理器,自定义Controller,返回值为true表示继续流程（如调用下一个拦截器或处理器）
 //    或者接着执行postHandle()和afterCompletion()；false表示流程中断，不会继续调用其他的拦截器或处理器，中断执行。
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        log.info(handler.getClass().toString());
+        //log.info(handler.getClass().toString());
         if (!(handler instanceof org.springframework.web.method.HandlerMethod)) {
             return true;
         }
@@ -58,19 +58,19 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         if (method.getAnnotation(AuthToken.class) != null || handlerMethod.getBeanType().getAnnotation(AuthToken.class) != null) {
 
             String token = request.getHeader(httpHeaderName);
-            log.info("Get token from request is {} ", token);
+            //log.info("Get token from request is {} ", token);
             String username = "";
 
             if (token != null && token.length() != 0) {
                 username = redisUtil.get(token);
-                log.info("Get username from Redis is {}", username);
+                //log.info("Get username from Redis is {}", username);
             }
             if (username != null && !username.trim().equals("")) {
-                log.info((String)redisUtil.get(username+token));
+                //log.info((String)redisUtil.get(username+token));
                 Long tokeBirthTime = Long.valueOf((String)redisUtil.get(username+token));
-                log.info("token Birth time is: {}", tokeBirthTime);
+                //log.info("token Birth time is: {}", tokeBirthTime);
                 Long diff = System.currentTimeMillis() - tokeBirthTime;
-                log.info("token is exist : {} ms", diff);
+                //log.info("token is exist : {} ms", diff);
                 if (diff > 1000*60*60) {
                     //设置过期时间
                     redisUtil.expire(username,1000*60*60, TimeUnit.MILLISECONDS);
