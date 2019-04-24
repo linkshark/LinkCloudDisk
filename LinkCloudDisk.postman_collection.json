@@ -20,13 +20,13 @@
 									{
 										"key": "Content-Type",
 										"name": "Content-Type",
-										"value": "application/json",
-										"type": "text"
+										"type": "text",
+										"value": "application/json"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"userName\" : \"熊哥\",\n\t\"passWord\" : \"123456\"\n}"
+									"raw": "{\n\t\"userName\" : \"沈\",\n\t\"passWord\" : \"123456\"\n}"
 								},
 								"url": {
 									"raw": "localhost:1001/User/Regist",
@@ -51,8 +51,8 @@
 									{
 										"key": "Content-Type",
 										"name": "Content-Type",
-										"value": "application/x-www-form-urlencoded",
-										"type": "text"
+										"type": "text",
+										"value": "application/x-www-form-urlencoded"
 									}
 								],
 								"body": {
@@ -60,7 +60,7 @@
 									"urlencoded": [
 										{
 											"key": "userName",
-											"value": "熊哥",
+											"value": "沈大侠",
 											"type": "text"
 										},
 										{
@@ -175,6 +175,85 @@
 									"path": [
 										"Book",
 										"32"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/Book/{mediaId}",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": ""
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/Book/getAllBook",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMiJ9.We25sV9L7zpVsk9NMIZf4GzjngYpWD7ZySyrvHpaK8s",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "localhost:1001/Book/getAllBook",
+									"host": [
+										"localhost"
+									],
+									"port": "1001",
+									"path": [
+										"Book",
+										"getAllBook"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "并发测试",
+					"item": [
+						{
+							"name": "/Book/getAllBook",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzMiJ9.MoRERUf0MGQoxtmJHIghIXNc38leAASVOlOkzPviwpU",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "localhost:1001/Book/getAllBook",
+									"host": [
+										"localhost"
+									],
+									"port": "1001",
+									"path": [
+										"Book",
+										"getAllBook"
 									]
 								}
 							},
