@@ -1,4 +1,5 @@
 package com.linkjb.serviceregist.base;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -12,7 +13,8 @@ import java.util.List;
  *  *
  *  */
 
-public class BaseResult<T> {
+public class BaseResult<T> implements Serializable {
+    private static final long serialVersionUID = 6977402643848374788L;
     private String status;       //处理结果状态
     private String message;      //返回信息
     private T entity;            //返回实体对象

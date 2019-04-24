@@ -10,6 +10,7 @@ import com.linkjb.serviceregist.utils.RedisUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -104,7 +105,11 @@ public class BookController {
     }
     @GetMapping("/Book/getAllBook")
     @AuthToken
+    //value指定缓存存放在哪块命名空间
+    @Cacheable(value = "emp" ,key = "targetClass +methodName +#p0")
+    //TODO  https://www.cnblogs.com/yueshutong/p/9381540.html 未完待续
     public BaseResult<List<Map<String,Object>>> getAllBook(@RequestHeader String Authorization){
+        log.info("没有缓存,初始化操作");
         BaseResult<List<Map<String,Object>>> result = new BaseResult<>();
         try{
             String returnUserName = redisUtil.get(Authorization);

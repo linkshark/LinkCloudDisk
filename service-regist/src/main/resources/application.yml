@@ -28,7 +28,7 @@ spring:
   mail:
     host: smtp-mail.outlook.com
     username: sharkshen@outlook.com
-    password: Xiongge19960311
+    password: ???
     default-encoding: UTF-8
 mail:
   fromMail:
@@ -70,5 +70,4 @@ eureka:
     serviceUrl:
       defaultZone: http://localhost:1000/eureka/
 
-#邮箱服务 spring-mail
 
