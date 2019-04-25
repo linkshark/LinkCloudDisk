@@ -14,9 +14,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.BeanFactoryAware;
-import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -41,26 +38,26 @@ public class SpiderServiceImp implements SpiderService {
     MediaMapper mediaDAO;
     @Resource
     LinkMediaMapper linkMediaDAO;
+    //log4j日志
     private static final Logger log = LoggerFactory.getLogger(SpiderServiceImp.class);
+    //初始的URL入口
     private static String url = "https://www.meijutt.com/1_______.html";
-
-//    public static void main(String[] args) throws IOException {
-//            Spider sp = new Spider();
-//            //sp.getAllUrl();
-//        sp.getData();
-//    }
-
 
     public String getPageNum() throws IOException {
         String number ="";
        try{
+           //使用JSOUP获取连接
            Connection conn = Jsoup.connect(url).timeout(5000);
+           //设置请求头,模拟浏览器登陆,绕过简单的反爬虫机制
            conn.header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
            conn.header("Accept-Encoding", "gzip, deflate, sdch");
            conn.header("Accept-Language", "zh-CN,zh;q=0.8");
            conn.header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36");
+           //从url中获取流并解析为Document对象
            Document doc = conn.get();
+           //使用JSOUP的css选择器获取指定的Document页面元素,在这里我们选择获取页码
            Elements select = doc.select(".page span");
+           //对获得的元素进行处理
             number =  select.get(0).text().substring(select.get(0).text().indexOf("/")+1);
        }catch (Exception e){
            e.printStackTrace();
