@@ -106,7 +106,9 @@ public class BookController {
     @GetMapping("/Book/getAllBook")
     @AuthToken
     //value指定缓存存放在哪块命名空间
-    @Cacheable(value = "emp" ,key = "targetClass +methodName +#p0")
+    //key : 表示命名空间下缓存唯一key,使用Spring Expression Language(简称SpEL)生成。
+    //condition : 表示在哪种情况下才缓存结果(对应的还有unless,哪种情况不缓存),同样使用SpEL
+    @Cacheable(value = "emp" ,key = "targetClass +methodName +#Authorization")
     //TODO  https://www.cnblogs.com/yueshutong/p/9381540.html 未完待续
     public BaseResult<List<Map<String,Object>>> getAllBook(@RequestHeader String Authorization){
         log.info("没有缓存,初始化操作");
