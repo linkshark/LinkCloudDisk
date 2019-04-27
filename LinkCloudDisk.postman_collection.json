@@ -60,7 +60,7 @@
 									"urlencoded": [
 										{
 											"key": "userName",
-											"value": "沈大侠",
+											"value": "沈",
 											"type": "text"
 										},
 										{
@@ -95,7 +95,7 @@
 									"raw": ""
 								},
 								"url": {
-									"raw": "localhost:1001/User/checkToken?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMiJ9.We25sV9L7zpVsk9NMIZf4GzjngYpWD7ZySyrvHpaK8s",
+									"raw": "localhost:1001/User/checkToken?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMSJ9.xLFhVbyZmn24fBmrqhVjxkr3NOAqsN4CNGt47Fz9DGk",
 									"host": [
 										"localhost"
 									],
@@ -107,7 +107,7 @@
 									"query": [
 										{
 											"key": "token",
-											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMiJ9.We25sV9L7zpVsk9NMIZf4GzjngYpWD7ZySyrvHpaK8s"
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMSJ9.xLFhVbyZmn24fBmrqhVjxkr3NOAqsN4CNGt47Fz9DGk"
 										}
 									]
 								},
@@ -157,8 +157,8 @@
 								"method": "GET",
 								"header": [
 									{
-										"key": "token",
-										"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMiJ9.We25sV9L7zpVsk9NMIZf4GzjngYpWD7ZySyrvHpaK8s",
+										"key": "Authorization",
+										"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzMCJ9.QV39P6YbhM1kVFnrkmM6-AI94Hjw_69v8HF415h06YY",
 										"type": "text"
 									}
 								],
@@ -167,14 +167,14 @@
 									"raw": ""
 								},
 								"url": {
-									"raw": "localhost:1001/Book/32",
+									"raw": "localhost:1001/Book/50",
 									"host": [
 										"localhost"
 									],
 									"port": "1001",
 									"path": [
 										"Book",
-										"32"
+										"50"
 									]
 								}
 							},
@@ -183,14 +183,28 @@
 						{
 							"name": "/Book/{mediaId}",
 							"request": {
-								"method": "GET",
-								"header": [],
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzMCJ9.QV39P6YbhM1kVFnrkmM6-AI94Hjw_69v8HF415h06YY",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": ""
 								},
 								"url": {
-									"raw": ""
+									"raw": "localhost:1001/Book/50",
+									"host": [
+										"localhost"
+									],
+									"port": "1001",
+									"path": [
+										"Book",
+										"50"
+									]
 								}
 							},
 							"response": []
@@ -201,8 +215,8 @@
 								"method": "GET",
 								"header": [
 									{
-										"key": "token",
-										"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMiJ9.We25sV9L7zpVsk9NMIZf4GzjngYpWD7ZySyrvHpaK8s",
+										"key": "Authorization",
+										"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzMCJ9.QV39P6YbhM1kVFnrkmM6-AI94Hjw_69v8HF415h06YY",
 										"type": "text"
 									}
 								],
@@ -220,6 +234,27 @@
 										"Book",
 										"getAllBook"
 									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "UploadController",
+					"item": [
+						{
+							"name": "file/{name}",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": ""
 								}
 							},
 							"response": []
