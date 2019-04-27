@@ -132,7 +132,7 @@ public class UserController {
                         redisUtil.setForTimeMS(userName,user.getToken(user),1000*60*60);
                         redisUtil.setForTimeMS(user.getToken(user),userName,1000*60*60);
                         redisUtil.set(userName+user.getToken(user),String.valueOf(System.currentTimeMillis()));
-                        Log.info(redisUtil.get(userName+user.getToken(user)).toString());
+                        //Log.info(redisUtil.get(userName+user.getToken(user)).toString());
                         //Log.info(redisUtil.get(userName));
                         result.setStatus(ConstantSrting.STATUS_SUCCESS);
                         result.setEntity(redisUtil.get(userName));

@@ -6,6 +6,7 @@ import com.linkjb.serviceregist.filter.AuthenticationInterceptor;
 import com.linkjb.serviceregist.service.UserLinkMediaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
@@ -43,6 +44,7 @@ public class UserLinkMediaServiceImpl implements UserLinkMediaService {
 
     @Override
     @Async("asyncPromiseExecutor")
+//    @Cacheable(value = "emp" ,key = "targetClass +methodName +#p0") TODO 未实现serizable接口 无法使用cacheable注解
     public ListenableFuture<List<Map<String, Object>>> getAllBook(Integer id) {
         log.info(Thread.currentThread().getName());
         return new AsyncResult<>(userLinkMediaDao.getAllBook(id));
