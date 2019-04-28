@@ -10,7 +10,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
-    password: bunengshuoa
+    password: ???
     url: jdbc:mysql://linkjb.com:3306/mediasubscriber?characterEncoding=utf8
     type: com.alibaba.druid.pool.DruidDataSource
 
