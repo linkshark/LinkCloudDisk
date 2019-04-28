@@ -17,7 +17,7 @@ spring:
   datasource:
     username: root
     url: jdbc:mysql://106.14.218.153:3306/mediasubscriber?characterEncoding=UTF-8&useSSL=false&useUnicode=true
-    password: ????
+    password: ?????
     driver-class-name: com.mysql.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
   application:
