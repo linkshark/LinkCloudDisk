@@ -26,7 +26,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"userName\" : \"沈\",\n\t\"passWord\" : \"123456\"\n}"
+									"raw": "{\n\t\"userName\" : \"超哥\",\n\t\"passWord\" : \"123456\"\n}"
 								},
 								"url": {
 									"raw": "localhost:1001/User/Regist",
@@ -60,7 +60,7 @@
 									"urlencoded": [
 										{
 											"key": "userName",
-											"value": "沈",
+											"value": "超哥",
 											"type": "text"
 										},
 										{
@@ -95,7 +95,7 @@
 									"raw": ""
 								},
 								"url": {
-									"raw": "localhost:1001/User/checkToken?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMSJ9.xLFhVbyZmn24fBmrqhVjxkr3NOAqsN4CNGt47Fz9DGk",
+									"raw": "localhost:1001/User/checkToken?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMiJ9.We25sV9L7zpVsk9NMIZf4GzjngYpWD7ZySyrvHpaK8s",
 									"host": [
 										"localhost"
 									],
@@ -107,7 +107,7 @@
 									"query": [
 										{
 											"key": "token",
-											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMSJ9.xLFhVbyZmn24fBmrqhVjxkr3NOAqsN4CNGt47Fz9DGk"
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMiJ9.We25sV9L7zpVsk9NMIZf4GzjngYpWD7ZySyrvHpaK8s"
 										}
 									]
 								},
@@ -125,11 +125,16 @@
 										"name": "Content-Type",
 										"value": "application/json",
 										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzMiJ9.MoRERUf0MGQoxtmJHIghIXNc38leAASVOlOkzPviwpU",
+										"type": "text"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"id\" : \"21\",\n\t\"userName\" : \"熊哥更新\",\n\t\"passWord\" : \"15968100598\"\n}"
+									"raw": "{\n\t\"id\" : \"21\",\n\t\"userName\" : \"沈大王\",\n\t\"passWord\" : \"123456\"\n}"
 								},
 								"url": {
 									"raw": "localhost:1001/User/Update",
@@ -154,11 +159,11 @@
 						{
 							"name": "/Book/{token}/{mediaId}",
 							"request": {
-								"method": "GET",
+								"method": "PUT",
 								"header": [
 									{
 										"key": "Authorization",
-										"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzMCJ9.QV39P6YbhM1kVFnrkmM6-AI94Hjw_69v8HF415h06YY",
+										"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzMiJ9.MoRERUf0MGQoxtmJHIghIXNc38leAASVOlOkzPviwpU",
 										"type": "text"
 									}
 								],
@@ -167,14 +172,14 @@
 									"raw": ""
 								},
 								"url": {
-									"raw": "localhost:1001/Book/50",
+									"raw": "localhost:1001/Book/49",
 									"host": [
 										"localhost"
 									],
 									"port": "1001",
 									"path": [
 										"Book",
-										"50"
+										"49"
 									]
 								}
 							},
@@ -187,7 +192,7 @@
 								"header": [
 									{
 										"key": "Authorization",
-										"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzMCJ9.QV39P6YbhM1kVFnrkmM6-AI94Hjw_69v8HF415h06YY",
+										"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzMiJ9.MoRERUf0MGQoxtmJHIghIXNc38leAASVOlOkzPviwpU",
 										"type": "text"
 									}
 								],
@@ -196,14 +201,14 @@
 									"raw": ""
 								},
 								"url": {
-									"raw": "localhost:1001/Book/50",
+									"raw": "localhost:1001/Book/33",
 									"host": [
 										"localhost"
 									],
 									"port": "1001",
 									"path": [
 										"Book",
-										"50"
+										"33"
 									]
 								}
 							},
@@ -216,7 +221,7 @@
 								"header": [
 									{
 										"key": "Authorization",
-										"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzMCJ9.QV39P6YbhM1kVFnrkmM6-AI94Hjw_69v8HF415h06YY",
+										"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzMiJ9.MoRERUf0MGQoxtmJHIghIXNc38leAASVOlOkzPviwpU",
 										"type": "text"
 									}
 								],
@@ -247,14 +252,39 @@
 						{
 							"name": "file/{name}",
 							"request": {
-								"method": "GET",
-								"header": [],
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzMiJ9.MoRERUf0MGQoxtmJHIghIXNc38leAASVOlOkzPviwpU",
+										"type": "text"
+									}
+								],
 								"body": {
-									"mode": "raw",
-									"raw": ""
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "files",
+											"type": "file",
+											"src": ""
+										},
+										{
+											"key": "files",
+											"type": "file",
+											"src": ""
+										}
+									]
 								},
 								"url": {
-									"raw": ""
+									"raw": "localhost:1001/File/shark",
+									"host": [
+										"localhost"
+									],
+									"port": "1001",
+									"path": [
+										"File",
+										"shark"
+									]
 								}
 							},
 							"response": []
