@@ -30,6 +30,12 @@ spring:
     username: sharkshen@outlook.com
     password: ???
     default-encoding: UTF-8
+    port: 587
+    properties:
+      mail:
+        smtp:
+          starttls:
+            required: true
 mail:
   fromMail:
     addr: sharkshen@outlook.com
