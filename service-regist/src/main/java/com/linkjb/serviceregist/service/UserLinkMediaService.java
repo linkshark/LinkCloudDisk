@@ -20,4 +20,8 @@ public interface UserLinkMediaService {
     UserLinkMedia selectByOne(UserLinkMedia link);
 
     ListenableFuture<List<Map<String, Object>>> getAllBook(Integer id);
+
+    void CleanCache();
+
+    Boolean uniqueCheck(Integer id, String mediaId);
 }

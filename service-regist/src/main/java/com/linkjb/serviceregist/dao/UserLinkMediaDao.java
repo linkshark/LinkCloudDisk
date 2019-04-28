@@ -15,5 +15,8 @@ import java.util.Map;
  */
 @Mapper
 public interface UserLinkMediaDao extends BaseMapper<UserLinkMedia> {
+
     List<Map<String, Object>> getAllBook(@Param("id") Integer id);
+
+    UserLinkMedia selectByUserIdAndMediaId(@Param("id") Integer id,@Param("mediaId") String mediaId);
 }

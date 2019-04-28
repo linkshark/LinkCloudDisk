@@ -5,6 +5,7 @@
     <resultMap id="BaseResultMap" type="com.linkjb.serviceregist.entity.UserLinkMedia">
         <id column="user_id" jdbcType="INTEGER" property="userId" />
         <result column="media_id" jdbcType="INTEGER" property="mediaId" />
+        <result column="sub_scribe_time" jdbcType="DATE" property="subScribeTime" />
     </resultMap>
 
     <select id="getAllBook" resultType="java.util.HashMap">
@@ -22,6 +23,10 @@
         GROUP BY
         urlName
     </select>
+    <select id="selectByUserIdAndMediaId" resultMap="BaseResultMap">
+        select * from user_link_media where user_id = #{id} and media_id = #{mediaId}
+    </select>
+
 
 
 

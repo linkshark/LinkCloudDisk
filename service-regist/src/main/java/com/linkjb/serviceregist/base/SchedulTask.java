@@ -23,8 +23,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author hry
  *
  */
-@SpringBootApplication
-@EnableScheduling // 启动定时任务
+//@SpringBootApplication
+//@EnableScheduling // 启动定时任务
 public class SchedulTask {
     private static final Logger log = LoggerFactory.getLogger(SchedulTask.class);
 
