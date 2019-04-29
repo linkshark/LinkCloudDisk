@@ -13,6 +13,21 @@
 					"name": "UserController",
 					"item": [
 						{
+							"name": "/User/getVerificationCode",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": ""
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "/User/Regist",
 							"request": {
 								"method": "POST",

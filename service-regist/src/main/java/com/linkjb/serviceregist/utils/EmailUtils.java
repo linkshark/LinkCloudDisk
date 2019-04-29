@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 /**
@@ -17,7 +18,7 @@ public class EmailUtils {
     Logger log = LoggerFactory.getLogger(EmailUtils.class);
     @Autowired
     JavaMailSenderImpl mailSender;
-
+    @Async//使用线程池异步处理
     public void sendSimpleEmail(String subject,String simpleText,String sendTo){
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(sendTo);
