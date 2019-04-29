@@ -25,7 +25,7 @@ public class Test01 {
             message.setSubject("马化腾真帅");
             message.setText("真的真的真的帅");
 
-            message.setTo("654735670@qq.com");
+            message.setTo("sharkshen1996@gmail.com");
             message.setFrom("sharkshen@outlook.com");
 
             mailSender.send(message);
