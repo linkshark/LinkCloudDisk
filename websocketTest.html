@@ -1,83 +1,80 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>battcn websocket</title>
-  <script src="jquery-3.2.1.min.js" ></script>
+  <title>socket.html</title>
+
+  <meta name="keywords" content="keyword1,keyword2,keyword3">
+  <meta name="description" content="this is my page">
+  <meta name="content-type" content="text/html" charset="UTF-8">
+  <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
 </head>
+
 <body>
 
-<label for="message_content">聊&nbsp;&nbsp;天&nbsp;&nbsp;室&nbsp;</label><textarea id="message_content" readonly="readonly" cols="57" rows="10">
+Welcome<br/>
+<input id="text" type="text" /><button onclick="send()">Send</button>    <button onclick="closeWebSocket()">Close</button>
+<div id="message">
+</div>
+<!-- 公共JS -->
+    <script type="text/javascript" src="jquery.min.js"></script>
 
-</textarea>
-
-<br/>
-
-
-<label for="in_user_name">用户姓名 &nbsp;</label><input id="in_user_name" value=""/>
-<button id="btn_join">加入聊天室</button>
-<button id="btn_exit">离开聊天室</button>
-
-<br/><br/>
-
-<label for="in_room_msg">群发消息 &nbsp;</label><input id="in_room_msg" value=""/>
-<button id="btn_send_all">发送消息</button>
-
-
-<br/><br/><br/>
-
-好友聊天
-<br/>
-<label for="in_sender">发送者 &nbsp;</label><input id="in_sender" value=""/><br/>
-<label for="in_receive">接受者 &nbsp;</label><input id="in_receive" value=""/><br/>
-<label for="in_point_message">消息体 &nbsp;</label><input id="in_point_message" value=""/><button id="btn_send_point">发送消息</button>
-
-</body>
 
 <script type="text/javascript">
-    $(document).ready(function(){
-        var urlPrefix ='ws://localhost:8080/chat-room/';
-        var ws = null;
-        $('#btn_join').click(function(){
-            var username = $('#in_user_name').val();
-            var url = urlPrefix + username;
-            ws = new WebSocket(url);
-            ws.onopen = function () {
-                console.log("建立 websocket 连接...");
-            };
-            ws.onmessage = function(event){
-                //服务端发送的消息
-                $('#message_content').append(event.data+'\n');
-            };
-            ws.onclose = function(){
-                 $('#message_content').append('用户['+username+'] 已经离开聊天室!');
-                 console.log("关闭 websocket 连接...");
-            }
-        });
-        //客户端发送消息到服务器
-        $('#btn_send_all').click(function(){
-            var msg = $('#in_room_msg').val();
-            if(ws){
-                ws.send(msg);
-            }
-        });
-        // 退出聊天室
-        $('#btn_exit').click(function(){
-            if(ws){
-                ws.close();
-            }
-        });
+    var userID="888";
+    var websocket=null;
+    $(function() {
 
-        $("#btn_send_point").click(function() {
-           var sender = $("#in_sender").val();
-           var receive = $("#in_receive").val();
-            var message = $("#in_point_message").val();
-           $.get("/chat-room/"+sender+"/to/"+receive+"?message="+message,function() {
-              alert("发送成功...")
-           })
-        })
-
+        //创建WebSocket
+        connectWebSocket();
     })
-</script>
 
+    //强制关闭浏览器  调用websocket.close（）,进行正常关闭
+    window.onunload = function() {
+
+        //关闭连接
+        closeWebSocket();
+    }
+
+    //建立WebSocket连接
+    function connectWebSocket(){
+
+        console.log("开始...");
+
+        //建立webSocket连接
+        websocket = new WebSocket("ws://127.0.0.1:1088/webSocket/ID="+userID);
+
+        //打开webSokcet连接时，回调该函数
+        websocket.onopen = function () {
+            console.log("onpen");
+        }
+
+        //关闭webSocket连接时，回调该函数
+        websocket.onclose = function () {
+            //关闭连接
+            console.log("onclose");
+        }
+
+        //接收信息
+        websocket.onmessage = function (msg) {
+            console.log(msg.data);
+        }
+    }
+
+    //发送消息
+    function send(){
+        var postValue={};
+        postValue.id=userID;
+        postValue.message=$("#text").val();
+        websocket.send(JSON.stringify(postValue));
+    }
+    //关闭连接
+    function closeWebSocket(){
+        if(websocket != null) {
+            websocket.close();
+        }
+    }
+
+</script>
+</body>
 </html>

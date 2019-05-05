@@ -1,0 +1,19 @@
+server:
+  port: 1088
+eureka:
+  client:
+    serviceUrl:
+      #注册服务
+      defaultZone: http://localhost:1000/eureka/
+spring:
+  application:
+    name: service-websocket
+  datasource:
+    username: root
+    url: jdbc:mysql://linkjb.com:3306/linkdisk?characterEncoding=UTF-8&useSSL=false&useUnicode=true
+    password: ????
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+  output:
+    ansi:
+      enabled: always #日志默认开启颜色
