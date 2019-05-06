@@ -13,6 +13,7 @@
 <body>
 
 Welcome<br/>
+用户名:<input id="userName" type="text" />&nbsp;&nbsp;&nbsp;
 <input id="text" type="text" /><button onclick="send()">Send</button>    <button onclick="closeWebSocket()">Close</button>
 <div id="message">
 </div>
@@ -21,7 +22,7 @@ Welcome<br/>
 
 
 <script type="text/javascript">
-    var userID="888";
+    var userID=Math.round(Math.random()*10000);
     var websocket=null;
     $(function() {
 

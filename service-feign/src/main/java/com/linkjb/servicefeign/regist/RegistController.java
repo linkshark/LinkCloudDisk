@@ -20,7 +20,12 @@ public class RegistController {
 
     @PostMapping(value = "/User/Login/checkUserName")
     public BaseResult<Boolean> checkUserName(@RequestParam String userName) {
-        return schedualServiceCheckUserName.checkUserName(userName);
+       try{
+           return schedualServiceCheckUserName.checkUserName(userName);
+       }catch (Exception e){
+           e.printStackTrace();
+       }
+       return null;
     }
     @PostMapping(value = "/User/Login/Regist")
     public BaseResult<User> Regist(User user) {

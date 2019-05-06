@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @FeignClient(value = "service-regist",fallback = SchedualServiceRegistHystric.class)
 public interface SchedualServiceCheckUserName {
-    @RequestMapping(value = "/User/Login/checkUserName",method = RequestMethod.POST)
+    @RequestMapping(value = "/User/checkUserName",method = RequestMethod.POST)
     BaseResult<Boolean> checkUserName(@RequestParam(value = "userName") String userName);
     @RequestMapping(value = "/User/Login/Regist",method = RequestMethod.POST)
     BaseResult<User> Regist(@RequestBody User user);
