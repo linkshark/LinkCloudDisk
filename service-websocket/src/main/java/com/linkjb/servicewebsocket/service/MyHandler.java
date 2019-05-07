@@ -1,10 +1,17 @@
 package com.linkjb.servicewebsocket.service;
 
+import com.linkjb.servicewebsocket.base.BaseResult;
+import com.linkjb.servicewebsocket.feign.UserFeignService;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.ContextLoader;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.socket.*;
+import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
@@ -12,10 +19,13 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class MyHandler implements WebSocketHandler {
+
     Logger log = LoggerFactory.getLogger(MyHandler.class);
     //在线用户列表
     private static final Map<String,WebSocketSession> users ;
-
+    //TODO 待解决,websocket无法注入bean
+    @Resource
+    private UserFeignService userFeignService;
     static {
         users = new ConcurrentHashMap<>();
     }
@@ -40,6 +50,17 @@ public class MyHandler implements WebSocketHandler {
                 try{
                     JSONObject jsonObject = JSONObject.fromObject(webSocketMessage.getPayload());
                     //System.out.println(jsonObject.get("id"));
+                    if(jsonObject != null){
+                        try{
+                            String checkToken = jsonObject.get("token")+"";
+                            WebApplicationContext currentWebApplicationContext = ContextLoader.getCurrentWebApplicationContext();
+                            userFeignService = (UserFeignService)ContextLoader.getCurrentWebApplicationContext().getBean("UserFeignService");
+                            BaseResult<Map> userByToken = userFeignService.getUserByToken(checkToken);
+                            log.info(userByToken.getEntity().toString());
+                        }catch (Exception e){
+                            throw e;
+                        }
+                    }
                     log.info(jsonObject.get("message")+":来自"+(String)webSocketSession.getAttributes().get("WEBSOCKET_USERID")+"的消息");
                     sendMessageToUser(jsonObject.get("id")+"",new TextMessage("服务器收到了，hello!"));
                 }catch (Exception e){

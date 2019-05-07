@@ -189,9 +189,45 @@ public class UserController {
         }
         return result;
     }
-
+    /**
+     *功能描述
+     * 通过参数检验token
+     * @author shark
+     * @date 2019/5/7
+     * @param  * @param Authorization
+     * @return com.linkjb.serviceregist.base.BaseResult<java.util.Map>
+     */
+    @PostMapping("/User/checkTokenByParam")
+    public BaseResult<Map> checkToken(@RequestParam(value = "Authorization") String Authorization){
+        BaseResult<Map> result = new BaseResult();
+        try{
+            String returnUserName = redisUtil.get(Authorization);
+            if("".equals(returnUserName)||returnUserName==null){
+                result.setStatus(ConstantSrting.STATUS_other);
+                result.setMessage("token错误或已过期,请重新获取");
+            }else{
+                Map<String, User> hashEntries= (Map)redisUtil.getHashEntries("POJO_"+returnUserName);
+                result.setEntity(hashEntries);
+                result.setStatus(ConstantSrting.STATUS_SUCCESS);
+                result.setMessage("token登录成功");
+            }
+        }catch (Exception e){
+            Log.error(e.getMessage());
+            result.setStatus(ConstantSrting.STATUS_FAIL);
+            result.setMessage(e.getMessage());
+        }
+        return result;
+    }
+    /**
+     *功能描述
+     *  使用token登录并返回脱敏后的用户信息
+     * @author shark
+     * @date 2019/5/7
+     * @param  * @param Authorization
+     * @return com.linkjb.serviceregist.base.BaseResult<java.util.Map>
+     */
    @GetMapping("/User/checkToken")
-    public BaseResult<Map> checkToken(@RequestHeader String Authorization){
+    public BaseResult<Map> checkTokenByHeader(@RequestHeader String Authorization){
         BaseResult<Map> result = new BaseResult();
         try{
             String returnUserName = redisUtil.get(Authorization);
@@ -211,7 +247,14 @@ public class UserController {
         }
        return result;
    }
-
+    /**
+     *功能描述
+     * POST请求更新用户信息
+     * @author shark
+     * @date 2019/5/7
+     * @param  * @param user
+     * @return com.linkjb.serviceregist.base.BaseResult<java.lang.Boolean>
+     */
    @PutMapping("/User/Update")
    @AuthToken
     public BaseResult<Boolean> UpdateUser(@RequestBody User user){
@@ -242,6 +285,10 @@ public class UserController {
         }
         return result;
    }
+
+
+
+
 
 
 
