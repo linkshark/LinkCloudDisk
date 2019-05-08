@@ -14,7 +14,7 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
  * 实现WebSocketConfigurer接口，
  * 重写registerWebSocketHandlers方法，这是一个核心实现方法，
  * 配置websocket入口，允许访问的域、注册Handler、定义拦截器。
- * 客户端通过“/myHandler/{ID}”直接访问Handler核心类，进行socket的连接、接收、发送等操作，
+ * 客户端通过“/webSocket/{ID}”直接访问Handler核心类，进行socket的连接、接收、发送等操作，
  * 这里由于还加了个拦截器，所以建立新的socket访问时，
  * 都先进来拦截器再进去Handler类，“new WebSocketInterceptor()”是我实现的拦截器，
  * “new MyHandler()”是我实现的一个Handler类。

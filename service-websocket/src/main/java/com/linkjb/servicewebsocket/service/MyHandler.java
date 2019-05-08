@@ -1,15 +1,11 @@
 package com.linkjb.servicewebsocket.service;
 
-import com.linkjb.servicewebsocket.base.BaseResult;
 import com.linkjb.servicewebsocket.feign.UserFeignService;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.ContextLoader;
-import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.socket.*;
 import javax.annotation.Resource;
 import java.io.IOException;
@@ -50,17 +46,17 @@ public class MyHandler implements WebSocketHandler {
                 try{
                     JSONObject jsonObject = JSONObject.fromObject(webSocketMessage.getPayload());
                     //System.out.println(jsonObject.get("id"));
-                    if(jsonObject != null){
-                        try{
-                            String checkToken = jsonObject.get("token")+"";
-                            WebApplicationContext currentWebApplicationContext = ContextLoader.getCurrentWebApplicationContext();
-                            userFeignService = (UserFeignService)ContextLoader.getCurrentWebApplicationContext().getBean("UserFeignService");
-                            BaseResult<Map> userByToken = userFeignService.getUserByToken(checkToken);
-                            log.info(userByToken.getEntity().toString());
-                        }catch (Exception e){
-                            throw e;
-                        }
-                    }
+//                    if(jsonObject != null){
+//                        try{
+//                            String checkToken = jsonObject.get("token")+"";
+//                            WebApplicationContext currentWebApplicationContext = ContextLoader.getCurrentWebApplicationContext();
+//                            userFeignService = (UserFeignService)ContextLoader.getCurrentWebApplicationContext().getBean("UserFeignService");
+//                            BaseResult<Map> userByToken = userFeignService.getUserByToken(checkToken);
+//                            log.info(userByToken.getEntity().toString());
+//                        }catch (Exception e){
+//                            throw e;
+//                        }
+//                    }
                     log.info(jsonObject.get("message")+":来自"+(String)webSocketSession.getAttributes().get("WEBSOCKET_USERID")+"的消息");
                     sendMessageToUser(jsonObject.get("id")+"",new TextMessage("服务器收到了，hello!"));
                 }catch (Exception e){
@@ -74,10 +70,11 @@ public class MyHandler implements WebSocketHandler {
      * @param message
      * @return
      */
+    @Async//交由异步线程池处理,提高反应速度
     public boolean sendMessageToUser(String clientId, TextMessage message) {
         if (users.get(clientId) == null) return false;
         WebSocketSession session = users.get(clientId);
-       // System.out.println("sendMessage:" + session);
+         // System.out.println("sendMessage:" + session);
         if (!session.isOpen()) return false;
         try {
             session.sendMessage(message);

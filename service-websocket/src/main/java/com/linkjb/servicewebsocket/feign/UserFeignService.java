@@ -15,10 +15,10 @@ import java.util.Map;
  * @data 2019/5/7 10:16
  */
 //,fallback = UserServiceHystric.class
-@FeignClient(value = "service-regist")
-@Component
+@FeignClient(value = "service-regist",fallback = UserServiceHystric.class)
 public interface UserFeignService {
     @RequestMapping(value = "/User/checkTokenByParam",method = RequestMethod.POST)
     BaseResult<Map> getUserByToken(@RequestParam(value = "Authorization")String Authorization);
+
 
 }

@@ -18,6 +18,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+/**
+ *功能描述
+ * @author shark
+ * @date 2019/5/8
+ * @param  * @param null
+ * @return
+ */
 
 @RestController
 public class BookController {
