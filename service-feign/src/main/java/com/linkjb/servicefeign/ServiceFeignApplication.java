@@ -13,6 +13,8 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableFeignClients
 public class
 
+
+
 ServiceFeignApplication {
 
     public static void main(String[] args) {

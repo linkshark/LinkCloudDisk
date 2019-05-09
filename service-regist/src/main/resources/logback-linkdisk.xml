@@ -11,7 +11,7 @@
     <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径-->
 <!--    d:/Github/LinkCloudDisk/service-regist/logs-->
 <!--    /home/project/linkCloudDisk/service-regist/logs-->
-    <property name="LOG_HOME" value="d:/Github/LinkCloudDisk/service-regist/logs" />
+    <property name="LOG_HOME" value="log/service-regist/logs" />
     <!-- 控制台输出 -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
