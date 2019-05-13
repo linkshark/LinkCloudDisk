@@ -7,24 +7,24 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="eureka-server" />
-        <module name="service-websocket" />
-        <module name="service-regist" />
-        <module name="service-feign" />
         <module name="service-base" />
+        <module name="service-feign" />
         <module name="service-fileoperation" />
+        <module name="service-regist" />
+        <module name="service-websocket" />
         <module name="service-zuul" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="eureka-server" options="-parameters" />
-      <module name="service-base" options="-parameters" />
-      <module name="service-feign" options="-parameters" />
-      <module name="service-fileoperation" options="-parameters" />
-      <module name="service-regist" options="-parameters" />
-      <module name="service-websocket" options="-parameters" />
-      <module name="service-zuul" options="-parameters" />
+      <module name="eureka-server" options="" />
+      <module name="service-base" options="" />
+      <module name="service-feign" options="" />
+      <module name="service-fileoperation" options="" />
+      <module name="service-regist" options="" />
+      <module name="service-websocket" options="" />
+      <module name="service-zuul" options="" />
     </option>
   </component>
 </project>
