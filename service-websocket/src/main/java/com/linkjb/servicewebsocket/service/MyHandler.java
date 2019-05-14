@@ -5,6 +5,8 @@ import com.linkjb.servicewebsocket.feign.UserFeignService;
 import com.linkjb.servicewebsocket.service.Impl.MQServiceSendImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.*;
@@ -18,17 +20,22 @@ import java.util.concurrent.ConcurrentHashMap;
 public class MyHandler implements WebSocketHandler {
 
     Logger log = LoggerFactory.getLogger(MyHandler.class);
+
+    private static ApplicationContext applicationContext;
+
+    public static void setApplicationContext(ApplicationContext context) {
+        applicationContext = context;
+    }
+
     //在线用户列表
     private static final Map<String,WebSocketSession> users ;
 
-    static MQServiceSendImpl mqService;
+    private MQServiceSendImpl mqService;
 
     //TODO 待解决,websocket无法注入bean
-    @Resource
     private UserFeignService userFeignService;
     static {
         users = new ConcurrentHashMap<>();
-        mqService = new MQServiceSendImpl();
     }
 
     //新增socket
@@ -66,6 +73,7 @@ public class MyHandler implements WebSocketHandler {
 //                            throw e;
 //                        }
 //                    }
+                    mqService = applicationContext.getBean(MQServiceSendImpl.class);
                     mqService.sendTo(jsonObject);
                     //log.info(jsonObject.get("message")+":来自"+(String)webSocketSession.getAttributes().get("WEBSOCKET_USERID")+"的消息");
                     sendMessageToUser(jsonObject.get("id")+"",new TextMessage("服务器收到了，hello!"));
@@ -82,10 +90,12 @@ public class MyHandler implements WebSocketHandler {
      */
     @Async//交由异步线程池处理,提高反应速度
     public boolean sendMessageToUser(String clientId, TextMessage message) {
-        if (users.get(clientId) == null) return false;
+        if(users.get(clientId) == null) {return false;}
         WebSocketSession session = users.get(clientId);
          // System.out.println("sendMessage:" + session);
-        if (!session.isOpen()) return false;
+        if (!session.isOpen()) {
+            return false;
+        }
         try {
             session.sendMessage(message);
         } catch (IOException e) {
@@ -139,9 +149,13 @@ public class MyHandler implements WebSocketHandler {
         users.remove(getClientId(session));
     }
 
+    /*
+     * 是否支持消息拆分发送：如果接收的数据量比较大，最好打开(true), 否则可能会导致接收失败。
+     * 如果出现WebSocket连接接收一次数据后就自动断开，应检查是否是这里的问题。
+     */
     @Override
     public boolean supportsPartialMessages() {
-        return false;
+        return true;
     }
     /**
      * 获取用户标识
@@ -156,4 +170,7 @@ public class MyHandler implements WebSocketHandler {
             return null;
         }
     }
+
+
+
 }
