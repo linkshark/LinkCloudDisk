@@ -1,11 +1,12 @@
 package com.linkjb.servicewebsocket.service;
 
+import com.alibaba.fastjson.JSON;
 import com.linkjb.servicewebsocket.feign.UserFeignService;
-import net.sf.json.JSONObject;
+import com.linkjb.servicewebsocket.service.Impl.MQServiceSendImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.web.socket.*;
 import javax.annotation.Resource;
 import java.io.IOException;
@@ -13,17 +14,21 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Service
+@Component
 public class MyHandler implements WebSocketHandler {
 
     Logger log = LoggerFactory.getLogger(MyHandler.class);
     //在线用户列表
     private static final Map<String,WebSocketSession> users ;
+
+    static MQServiceSendImpl mqService;
+
     //TODO 待解决,websocket无法注入bean
     @Resource
     private UserFeignService userFeignService;
     static {
         users = new ConcurrentHashMap<>();
+        mqService = new MQServiceSendImpl();
     }
 
     //新增socket
@@ -44,7 +49,11 @@ public class MyHandler implements WebSocketHandler {
     @Override
     public void handleMessage(WebSocketSession webSocketSession, WebSocketMessage<?> webSocketMessage) throws Exception {
                 try{
-                    JSONObject jsonObject = JSONObject.fromObject(webSocketMessage.getPayload());
+                    //JSONObject jsonObject = JSONObject.fromObject(webSocketMessage.getPayload());
+                    String payload = (String)webSocketMessage.getPayload();
+                    com.alibaba.fastjson.JSONObject jsonObject = JSON.parseObject(payload);
+                    log.info(jsonObject.toJSONString());
+
                     //System.out.println(jsonObject.get("id"));
 //                    if(jsonObject != null){
 //                        try{
@@ -57,7 +66,8 @@ public class MyHandler implements WebSocketHandler {
 //                            throw e;
 //                        }
 //                    }
-                    log.info(jsonObject.get("message")+":来自"+(String)webSocketSession.getAttributes().get("WEBSOCKET_USERID")+"的消息");
+                    mqService.sendTo(jsonObject);
+                    //log.info(jsonObject.get("message")+":来自"+(String)webSocketSession.getAttributes().get("WEBSOCKET_USERID")+"的消息");
                     sendMessageToUser(jsonObject.get("id")+"",new TextMessage("服务器收到了，hello!"));
                 }catch (Exception e){
                     e.printStackTrace();

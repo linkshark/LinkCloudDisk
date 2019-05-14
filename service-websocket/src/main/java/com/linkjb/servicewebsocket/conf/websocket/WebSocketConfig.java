@@ -1,4 +1,4 @@
-package com.linkjb.servicewebsocket.conf;
+package com.linkjb.servicewebsocket.conf.websocket;
 
 import com.linkjb.servicewebsocket.filter.WebSocketInterceptor;
 import com.linkjb.servicewebsocket.service.MyHandler;

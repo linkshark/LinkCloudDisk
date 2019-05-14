@@ -11,7 +11,7 @@ spring:
   datasource:
     username: root
     url: jdbc:mysql://linkjb.com:3306/linkdisk?characterEncoding=UTF-8&useSSL=false&useUnicode=true
-    password: woshizhendebuzhidao
+    password: ????
     driver-class-name: com.mysql.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
   output:
@@ -22,4 +22,5 @@ spring:
     username: guest
     password: guest
     port: 5672
+    publisher-confirms: true #  消息发送到交换机确认机制,是否确认回调
 debug: true
