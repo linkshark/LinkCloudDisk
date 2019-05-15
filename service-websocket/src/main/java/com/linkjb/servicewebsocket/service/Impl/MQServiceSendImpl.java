@@ -22,7 +22,6 @@ import java.util.UUID;
 public class MQServiceSendImpl {
     Logger log = LoggerFactory.getLogger(MQServiceSendImpl.class);
     @Resource
-    //TODO 空指针异常
     private RabbitTemplate rabbitTemplate;
 
     public void sendTo(JSONObject s){

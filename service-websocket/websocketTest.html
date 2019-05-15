@@ -24,7 +24,7 @@ Welcome<br/>
 <script type="text/javascript">
     var userID=Math.round(Math.random()*10000);
     var websocket=null;
-    var token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzMiJ9.MoRERUf0MGQoxtmJHIghIXNc38leAASVOlOkzPviwpU";
+    //var token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzMiJ9.MoRERUf0MGQoxtmJHIghIXNc38leAASVOlOkzPviwpU";
     $(function() {
 
         //创建WebSocket
@@ -48,9 +48,9 @@ Welcome<br/>
 
         //打开webSokcet连接时，回调该函数
         websocket.onopen = function () {
-        	var postValue = {}
-        	postValue.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzMiJ9.MoRERUf0MGQoxtmJHIghIXNc38leAASVOlOkzPviwpU";
-        	websocket.send(JSON.stringify(postValue))
+        	//var postValue = {}
+        	//postValue.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzMiJ9.MoRERUf0MGQoxtmJHIghIXNc38leAASVOlOkzPviwpU";
+        	//websocket.send(JSON.stringify(postValue))
             console.log("onpen");
         }
 
@@ -70,6 +70,7 @@ Welcome<br/>
     function send(){
         var postValue={};
         postValue.id=userID;
+		postValue.sendTo = $("#userName").val();
         postValue.message=$("#text").val();
         websocket.send(JSON.stringify(postValue));
     }

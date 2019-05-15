@@ -28,7 +28,7 @@ public class MyHandler implements WebSocketHandler {
     }
 
     //在线用户列表
-    private static final Map<String,WebSocketSession> users ;
+    public static final Map<String,WebSocketSession> users ;
 
     private MQServiceSendImpl mqService;
 
@@ -45,6 +45,7 @@ public class MyHandler implements WebSocketHandler {
         log.info("用户:"+ID +" 建立连接!");
         if(ID!=null){
             users.put(ID,session);
+            log.info(users.toString());
             session.sendMessage(new TextMessage("成功建立SOCKET连接"));
             //System.out.println(ID);
             //System.out.println(session);
@@ -76,7 +77,7 @@ public class MyHandler implements WebSocketHandler {
                     mqService = applicationContext.getBean(MQServiceSendImpl.class);
                     mqService.sendTo(jsonObject);
                     //log.info(jsonObject.get("message")+":来自"+(String)webSocketSession.getAttributes().get("WEBSOCKET_USERID")+"的消息");
-                    sendMessageToUser(jsonObject.get("id")+"",new TextMessage("服务器收到了，hello!"));
+                    //sendMessageToUser(jsonObject.get("id")+"",new TextMessage("服务器收到了，hello!"));
                 }catch (Exception e){
                     e.printStackTrace();
                 }
