@@ -23,4 +23,9 @@ public class QueueConfig {
     public Queue secondQueue() {
         return new Queue("second-queue",true,false,false);
     }
+
+    @Bean
+    public Queue thirdQueue() {
+        return new Queue("third-queue",true,false,false);
+    }
 }
