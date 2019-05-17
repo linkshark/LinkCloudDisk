@@ -25,6 +25,7 @@ public class ServiceWebsocketApplicationTests {
     public void Test02(){
         JSONObject s = new JSONObject();
         s.put("name","shark");
+        //a
         String uuid = UUID.randomUUID().toString();
         CorrelationData correlationId = new CorrelationData(uuid);
 
