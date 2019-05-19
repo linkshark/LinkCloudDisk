@@ -21,9 +21,14 @@ public class RabbitMqConfig {
 
     public static final String EXCHANGE = "websocketExchange";
 
+    //topic 模式交换机
+    public static final String TOPICEXCHANGE = "websocketTopicExchange";
+
     public static final String ROUTINGKEY1 = "websocket_queue_key1";
 
     public static final String ROUTINGKEY2 = "websocket_queue_key2";
+
+    public static final String ROUTINGKEY3 = "websocket_queue_key3";
 
     @Autowired
     private QueueConfig queueConfig;
@@ -59,6 +64,7 @@ public class RabbitMqConfig {
     public SimpleMessageListenerContainer simpleMessageListenerContainer_one(){
         SimpleMessageListenerContainer simpleMessageListenerContainer = new SimpleMessageListenerContainer(connectionFactory);
         simpleMessageListenerContainer.addQueues(queueConfig.firstQueue());
+        simpleMessageListenerContainer.addQueues(queueConfig.thirdQueue());
         simpleMessageListenerContainer.setExposeListenerChannel(true);
         simpleMessageListenerContainer.setMaxConcurrentConsumers(5);
         simpleMessageListenerContainer.setConcurrentConsumers(1);

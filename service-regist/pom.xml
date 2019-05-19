@@ -68,6 +68,8 @@
     </dependencies>
 
     <build>
+        <!--包的名称-->
+        <finalName>service-regist</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

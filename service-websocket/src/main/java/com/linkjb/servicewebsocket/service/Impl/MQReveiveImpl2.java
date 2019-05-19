@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
         bindings = @QueueBinding(
                 value = @Queue(value = "third-queue"),
                 exchange=@Exchange(value= RabbitMqConfig.EXCHANGE,type= ExchangeTypes.DIRECT),
-                key=RabbitMqConfig.ROUTINGKEY2
+                key=RabbitMqConfig.ROUTINGKEY3
         )
 
 )
@@ -28,6 +28,7 @@ public class MQReveiveImpl2 {
      */
      @RabbitHandler
      public void doMessage(String msg){
-        System.out.println(msg);
+
+         System.out.println("接收方接收到消息:"+msg);
      }
 }
