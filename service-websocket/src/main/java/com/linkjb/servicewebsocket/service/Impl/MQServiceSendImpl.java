@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.support.CorrelationData;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -29,5 +29,12 @@ public class MQServiceSendImpl {
         CorrelationData correlationId = new CorrelationData(uuid);
 
         rabbitTemplate.convertAndSend(RabbitMqConfig.EXCHANGE,RabbitMqConfig.ROUTINGKEY1,s.toJSONString(),correlationId);
+    }
+
+    public void sendToAll(JSONObject s){
+        String uuid = UUID.randomUUID().toString();
+        CorrelationData correlationId = new CorrelationData(uuid);
+
+        rabbitTemplate.convertAndSend(RabbitMqConfig.EXCHANGE,RabbitMqConfig.ROUTINGKEY3,s.toJSONString(),correlationId);
     }
 }
