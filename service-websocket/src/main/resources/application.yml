@@ -18,9 +18,16 @@ spring:
     ansi:
       enabled: always #日志默认开启颜色
   rabbitmq:
-    host: localhost
-    username: guest
-    password: guest
+    host: www.linkjb.com
+    username: xiongge
+    password: ???
     port: 5672
     publisher-confirms: true #  消息发送到交换机确认机制,是否确认回调
+    listener:
+      direct:
+        retry:
+          #开启重试
+          enabled: true
+          #重试次数，默认为 3 次
+          max-attempts: 5
 debug: true

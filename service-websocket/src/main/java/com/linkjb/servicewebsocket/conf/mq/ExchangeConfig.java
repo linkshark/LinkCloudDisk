@@ -1,6 +1,7 @@
 package com.linkjb.servicewebsocket.conf.mq;
 
 import org.springframework.amqp.core.DirectExchange;
+import org.springframework.amqp.core.TopicExchange;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -22,6 +23,12 @@ public class ExchangeConfig {
     public DirectExchange directExchange(){
         DirectExchange directExchange = new DirectExchange(RabbitMqConfig.EXCHANGE,true,false);
         return directExchange;
+    }
+
+    @Bean
+    public TopicExchange topicExchange(){
+        TopicExchange topicExchange = new TopicExchange(RabbitMqConfig.TOPICEXCHANGE,true,true);
+        return  topicExchange;
     }
 
 }

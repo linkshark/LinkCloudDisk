@@ -28,4 +28,15 @@ public class QueueConfig {
     public Queue thirdQueue() {
         return new Queue("third-queue",true,false,false);
     }
+
+
+    @Bean
+    public Queue infoQueue() {
+        return new Queue("topic.info",true,false,false);
+    }
+
+    @Bean
+    public Queue errorQueue() {
+        return new Queue("topic.error",true,false,false);
+    }
 }

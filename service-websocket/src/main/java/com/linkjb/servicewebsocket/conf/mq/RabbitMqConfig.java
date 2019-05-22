@@ -30,11 +30,12 @@ public class RabbitMqConfig {
 
     public static final String ROUTINGKEY3 = "websocket_queue_key3";
 
+//    public static final String ROUTINGKEY4 = "websocket_topic_key1";
+
     @Autowired
     private QueueConfig queueConfig;
     @Autowired
     private  ExchangeConfig exchangeConfig;
-
     @Autowired
     private ConnectionFactory connectionFactory;
 
@@ -55,6 +56,16 @@ public class RabbitMqConfig {
         return BindingBuilder.bind(queueConfig.secondQueue()).to(exchangeConfig.directExchange()).with(RabbitMqConfig.ROUTINGKEY2);
     }
 
+    @Bean
+    public Binding binding_info(){
+        return BindingBuilder.bind(queueConfig.infoQueue()).to(exchangeConfig.topicExchange()).with("topic.#");
+    }
+
+    @Bean
+    public Binding binding_error(){
+        return BindingBuilder.bind(queueConfig.errorQueue()).to(exchangeConfig.topicExchange()).with("topic.error");
+    }
+
     /**
      * queue listener  观察 监听模式
      * 当有消息到达时会通知监听在对应的队列上的监听对象
@@ -65,6 +76,8 @@ public class RabbitMqConfig {
         SimpleMessageListenerContainer simpleMessageListenerContainer = new SimpleMessageListenerContainer(connectionFactory);
         simpleMessageListenerContainer.addQueues(queueConfig.firstQueue());
         simpleMessageListenerContainer.addQueues(queueConfig.thirdQueue());
+        simpleMessageListenerContainer.addQueues(queueConfig.infoQueue());
+        simpleMessageListenerContainer.addQueues(queueConfig.errorQueue());
         simpleMessageListenerContainer.setExposeListenerChannel(true);
         simpleMessageListenerContainer.setMaxConcurrentConsumers(5);
         simpleMessageListenerContainer.setConcurrentConsumers(1);

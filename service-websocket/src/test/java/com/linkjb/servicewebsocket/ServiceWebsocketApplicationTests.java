@@ -4,18 +4,19 @@ import com.alibaba.fastjson.JSONObject;
 import com.linkjb.servicewebsocket.conf.mq.RabbitMqConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.support.CorrelationData;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
 import javax.annotation.Resource;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ServiceWebsocketApplicationTests {
+    Logger log = LoggerFactory.getLogger(ServiceWebsocketApplicationTests.class);
     @Resource
     private RabbitTemplate rabbitTemplate;
 
@@ -36,6 +37,20 @@ public class ServiceWebsocketApplicationTests {
             //rabbitTemplate.convertAndSend(RabbitMqConfig.EXCHANGE,RabbitMqConfig.ROUTINGKEY1,s.toJSONString(),correlationId);
 
         }
+    }
+
+    @Test
+    public void TopicTest(){
+        String uuid = UUID.randomUUID().toString();
+        CorrelationData correlationId = new CorrelationData(uuid);
+
+        rabbitTemplate.convertAndSend(RabbitMqConfig.TOPICEXCHANGE,"topic.info","向topic.info发送了消息",correlationId);
+        log.info("向topic.info发送了消息");
+        rabbitTemplate.convertAndSend(RabbitMqConfig.TOPICEXCHANGE,"topic","向topic发送了消息",correlationId);
+        log.info("向topic发送了消息");
+        rabbitTemplate.convertAndSend(RabbitMqConfig.TOPICEXCHANGE,"topic.error","向topic.error发送了消息",correlationId);
+        log.info("向topic.error发送了消息");
+
     }
 
 }
