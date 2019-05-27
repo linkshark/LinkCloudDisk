@@ -35,7 +35,7 @@ public class MQReveiveImpl {
                    log.info("用户未登陆");
                 }
                 try {
-                    session.sendMessage(new TextMessage("rabbitMQ消息测试成功"+message.get("message")));
+                    //session.sendMessage(new TextMessage("rabbitMQ消息测试成功"+message.get("message")));
                     if(sendTo!=null&&sendTo.isOpen()){
                         sendTo.sendMessage(new TextMessage("rabbitMQ消息测试成功"+message.get("message")));
                     }else{

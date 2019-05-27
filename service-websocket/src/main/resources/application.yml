@@ -6,12 +6,20 @@ eureka:
       #注册服务
       defaultZone: http://localhost:1000/eureka/
 spring:
+  redis:
+    database: 0
+    host: 106.14.218.153
+    port: 6379
+    timeout: 5000ms
+    pool:
+      timeout: 0
+    password: ???
   application:
     name: service-websocket
   datasource:
     username: root
     url: jdbc:mysql://linkjb.com:3306/linkdisk?characterEncoding=UTF-8&useSSL=false&useUnicode=true
-    password: ????
+    password: ???
     driver-class-name: com.mysql.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
   output:

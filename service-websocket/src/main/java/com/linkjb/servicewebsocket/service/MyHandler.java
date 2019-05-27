@@ -1,15 +1,21 @@
 package com.linkjb.servicewebsocket.service;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.linkjb.servicewebsocket.feign.UserFeignService;
 import com.linkjb.servicewebsocket.service.Impl.MQServiceSendImpl;
+import com.linkjb.servicewebsocket.utils.RedisUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.*;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -27,12 +33,15 @@ public class MyHandler implements WebSocketHandler {
 
     //在线用户列表
     public static final Map<String,WebSocketSession> users ;
-
+    //聊天室列表
+    public static final Map<String,List<String>> chatRoom;
     private MQServiceSendImpl mqService;
+    private RedisUtil redisUtil;
 
-    private UserFeignService userFeignService;
+    //private UserFeignService userFeignService;
     static {
         users = new ConcurrentHashMap<>();
+        chatRoom = new ConcurrentHashMap<>();
     }
 
     //新增socket
@@ -57,10 +66,44 @@ public class MyHandler implements WebSocketHandler {
                     String payload = (String)webSocketMessage.getPayload();
                     com.alibaba.fastjson.JSONObject jsonObject = JSON.parseObject(payload);
                     mqService = applicationContext.getBean(MQServiceSendImpl.class);
+                    redisUtil = applicationContext.getBean(RedisUtil.class);
+                    String from = jsonObject.getString("from");
                     if(jsonObject.get("sendToAll")==null){
+                        //私聊
                         mqService.sendTo(jsonObject);
                     }else{
+                        //全站消息
                         mqService.sendToAll(jsonObject);
+                    }
+                    //创建聊天室
+                    Map<String, List<String>> chatRoom = (Map)redisUtil.getHashEntries("chatRoom");
+                    if("1".equals(jsonObject.getString("developChatRoom"))){
+                        //获取聊天室资料
+                        String chatRoomName = jsonObject.getString("chatRoomName");
+                        //log.info(MyHandler.chatRoom.toString());
+
+                        if(chatRoom!=null&&chatRoom.get(chatRoomName)!=null){
+                            jsonObject.put("sendTo",jsonObject.getString("id"));
+                            jsonObject.put("message","对不起,此聊天室名字已被注册,请更换");
+                            mqService.sendTo(jsonObject);
+                        }else{
+                            if(chatRoom==null||chatRoom.size()==0){
+                                List<String> a = new ArrayList<>();
+                                a.add(jsonObject.get("id").toString());
+                                a.add("测试人员001");
+                                redisUtil.put("chatRoom",chatRoomName, JSON.toJSONString(a));
+                                jsonObject.put("sendTo",jsonObject.getString("id"));
+                                jsonObject.put("message","聊天室注册成功");
+                                mqService.sendTo(jsonObject);
+                            }else {
+                                JSONArray A = new JSONArray((List)chatRoom.get(chatRoomName));
+                                log.info(A.toJSONString());
+                                jsonObject.put("sendTo",jsonObject.getString("id"));
+                                jsonObject.put("message","聊天室注册成功");
+                                mqService.sendTo(jsonObject);
+                            }
+                        }
+
                     }
 
                 }catch (Exception e){

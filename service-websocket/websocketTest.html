@@ -13,7 +13,7 @@
 <body>
 
 Welcome<br/>
-用户名:<input id="userName" type="text" />&nbsp;&nbsp;&nbsp;
+用户名:<input id="userName" type="text" />&nbsp;&nbsp;&nbsp;创建聊天室:<input id="chatRoomName" type="text" />&nbsp;&nbsp;&nbsp;
 <input id="text" type="text" /><button onclick="send()">Send</button>    <button onclick="closeWebSocket()">Close</button>
 <div id="message">
 </div>
@@ -72,6 +72,8 @@ Welcome<br/>
         postValue.id=userID;
 		postValue.sendTo = $("#userName").val();
         postValue.message=$("#text").val();
+		postValue.developChatRoom = '1';
+		postValue.chatRoomName = $("#chatRoomName").val();
         websocket.send(JSON.stringify(postValue));
     }
     //关闭连接
