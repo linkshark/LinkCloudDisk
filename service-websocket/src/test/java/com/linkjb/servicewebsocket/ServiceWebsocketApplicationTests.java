@@ -2,6 +2,7 @@ package com.linkjb.servicewebsocket;
 
 import com.alibaba.fastjson.JSONObject;
 import com.linkjb.servicewebsocket.conf.mq.RabbitMqConfig;
+import com.linkjb.servicewebsocket.entity.Dish;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -21,6 +22,8 @@ import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+import static java.util.stream.Collectors.*;
+
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -28,6 +31,20 @@ public class ServiceWebsocketApplicationTests {
     Logger log = LoggerFactory.getLogger(ServiceWebsocketApplicationTests.class);
 
     List<String> list = Arrays.asList("Java","jjui", "JavaScript", "python", "PHP", "C#", "Golang", "Swift");
+    List<Dish> DishList = Arrays.asList(
+            new Dish("pork", false, 800, Dish.Type.MEAT),
+            new Dish("beef", false, 700, Dish.Type.MEAT),
+            new Dish("chicken", false, 400, Dish.Type.MEAT),
+            new Dish("french fries", true, 530, Dish.Type.OTHER),
+            new Dish("rice", true, 350, Dish.Type.OTHER),
+            new Dish("season fruit", true, 120, Dish.Type.OTHER),
+            new Dish("pizza", true, 550, Dish.Type.OTHER),
+            new Dish("prawns", false, 300, Dish.Type.FISH),
+            new Dish("salmon", false, 450, Dish.Type.FISH) );
+
+    public enum CaloricLevel { DIET, NORMAL, FAT };
+
+
     //@Resource
     private RabbitTemplate rabbitTemplate;
 
@@ -206,4 +223,86 @@ public class ServiceWebsocketApplicationTests {
 
 
 
+    @Test
+    public void ColleactTest01(){
+//        Collectors.maxBy和Collectors.minBy用来计算流中的最大或最小值，比如按卡路里的大小来筛选出卡路里最高的食材：
+        //DishList.stream().collect(maxBy(Comparator.comparingInt(Dish::getCalories))).ifPresent(System.out::println);
+
+//        Collectors.summingInt可以用于求和，参数类型为int类型。相应的基本类型对应的方法还有Collectors.summingLong和Collectors.summingDouble。比如求所有食材的卡路里：
+//        Integer collect = DishList.stream().collect(summingInt(Dish::getCalories));
+//        log.info(collect.toString());
+
+//        collectors.averagingInt方法用于求平均值，参数类型为int类型。相应的基本类型对应的方法还有Collectors.averagingLong和Collectors.averagingDouble。
+//        比如求所有食材的平均卡路里:
+
+//        Double collect = DishList.stream().collect(averagingInt(Dish::getCalories));
+//        log.info(collect.toString());
+
+//        Collectors.summarizingInt方法可以一次性返回元素个数，最大值，最小值，平均值和总和：
+        //Integer collect = DishList.stream().collect(summingInt(Dish::getCalories));
+        IntSummaryStatistics iss = DishList.stream().collect(summarizingInt(Dish::getCalories));
+        log.info(iss.toString());
+
+    }
+
+
+    @Test
+    public void CollectTest02(){
+//        Collectors.joining方法会把流中每一个对象应用toString方法得到的所有字符串连接成一个字符串。如：
+//        String collect = DishList.stream().map(s -> s.getName()).collect(joining(","));
+//        log.info(collect);
+//
+//        //Collectors.groupingBy方法可以轻松的完成分组操作。比如现在对List中的食材按照类型进行分组：
+//        Map<Dish.Type, List<Dish>> collect1 = DishList.stream().collect(groupingBy(Dish::getType));
+//        log.info(collect1.toString());
+
+//        我们也可以自定义分组规则，比如按照卡路里的高低分为高热量，正常和低热量：
+        Map<CaloricLevel, List<Dish>> collect = DishList.stream().collect(groupingBy(d ->
+                {
+                    if (d.getCalories() <= 400) return CaloricLevel.DIET;
+                    else if (d.getCalories() <= 700) return CaloricLevel.NORMAL;
+                    else return CaloricLevel.FAT;
+                }
+        ));
+        log.info(collect.toString());
+
+
+    }
+
+    @Test
+    public void OptionalTest(){
+//        Department d =  new Department()
+    }
+
+
+
+}
+class Department {
+    private Employee employee;
+    public Department(Employee employee) {
+        this.employee = employee;
+    }
+    Employee getEmployee() {
+        return employee;
+    }
+}
+
+class Employee {
+    private Girl girlFriend;
+    public Employee(Girl girlFriend) {
+        this.girlFriend = girlFriend;
+    }
+    Girl getGirlFriend() {
+        return girlFriend;
+    }
+}
+
+class Girl {
+    private String name;
+    public Girl(String name) {
+        this.name = name;
+    }
+    String getName() {
+        return name;
+    }
 }
