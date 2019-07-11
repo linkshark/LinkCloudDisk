@@ -23,6 +23,9 @@ public class LocalTimeTest {
         LocalDate date = LocalDate.parse("2018-04-20");
          time = LocalTime.parse("20:13:54");
 
+
+
+
 //        LocalDateTime是LocalDate和LocalTime的组合形式，包含了年月日时分秒信息。举些LocalDateTime的使用示例：
         LocalDateTime ldt1 = LocalDateTime.of(2018, 4, 20, 20, 13, 54); // 2018-04-20T20:13:54
         LocalDateTime ldt2 = LocalDateTime.of(date, time); // 2018-04-20T20:13:54
@@ -41,6 +44,11 @@ public class LocalTimeTest {
 
             LocalDateTime beforeTime = LocalDateTime.of(2018,3,12,23,00,00);
         Duration between = Duration.between(NOWNOW, beforeTime);
+        System.out.println(between.getSeconds());
+
+
+
+        System.out.println(between.getSeconds());
         System.out.println(between.getSeconds());
 
 
