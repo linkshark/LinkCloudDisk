@@ -45,19 +45,29 @@ public class UserController {
      * @return com.linkjb.base.BaseResult<java.lang.Boolean>
      **/
     @PostMapping("/User/checkUserName")
-    public BaseResult<Boolean> checkUserNameUinque(@RequestParam("userName") String userName){
+    public BaseResult<Boolean> checkUserNameUinque(@RequestBody Map<String,Object> s){
         BaseResult<Boolean> result = new BaseResult<>();
        try{
+
+           Log.info(s.toString());
            //先从redis中获取,不直接查询mysql
            //使用redis 进行查
-           String s = redisUtil.get(userName);
-           if(s==null||"".equals(s)){
+           if(s.get("userName")!=null&&s.get("userName")!=""){
+               String d = redisUtil.get(s.get("userName").toString());
+               if(d==null||"".equals(d)){
                result.setEntity(true);
+               result.setMessage("用户名可用");
                result.setStatus(ConstantSrting.STATUS_SUCCESS);
                return result;
            }else{
                result.setEntity(false);
+               result.setMessage("用户名已被占用");
                result.setStatus(ConstantSrting.STATUS_SUCCESS);
+           }
+           }else{
+               result.setEntity(false);
+               result.setStatus(ConstantSrting.STATUS_SUCCESS);
+               result.setMessage("userName未传");
            }
        }catch (Exception e){
            result.setStatus(ConstantSrting.STATUS_FAIL);
@@ -73,14 +83,32 @@ public class UserController {
      * @return com.linkjb.serviceregist.base.BaseResult
      */
     @PostMapping("/User/getVerificationCode")
-    public BaseResult getVerificationCode(@RequestParam(value = "emailAddress",required = true) String emailAddress,@RequestParam(value = "userName",required = true)String userName){
+    public BaseResult getVerificationCode(@RequestBody Map<String,Object> map){
             BaseResult result = new BaseResult();
             try{
+                if(map.get("userName")==null||"".equals(map.get("userName").toString())){
+                    result.setMessage("userName:用户名为空");
+                    result.setStatus(ConstantSrting.STATUS_FAIL);
+                    return  result;
+                }
+                if(map.get("emailAddress")==null||"".equals(map.get("emailAddress").toString())){
+                    result.setMessage("emailAddress:邮箱地址为空");
+                    result.setStatus(ConstantSrting.STATUS_FAIL);
+                    return result;
+                }else if(userService.getUserByEmailAddress(map.get("emailAddress").toString())==null){
+                    result.setMessage("邮箱地址已被注册");
+                    result.setStatus(ConstantSrting.STATUS_FAIL);
+                    return result;
+                }
+
+                String userName = map.get("userName").toString();
+                String emailAddress = map.get("emailAddress").toString();
                 String verificationCode = String.valueOf((int)((Math.random()*9+1)*100000));
                 redisUtil.setForTimeMIN(userName+"-verificationCode",verificationCode,30);//双向绑定
                 redisUtil.setForTimeMIN(verificationCode,userName+"-verificationCode",30);//双向绑定
                 Log.info("从redis中获取的验证码为"+redisUtil.get(userName+"-verificationCode"));
                 emailUtils.sendSimpleEmail("验证码","您的验证码为"+verificationCode+"有效期为30分钟",emailAddress);
+                result.setMessage("调用成功");
                 result.setEntity(verificationCode);
                 result.setStatus(ConstantSrting.STATUS_SUCCESS);
             }catch (Exception e){
@@ -285,16 +313,4 @@ public class UserController {
         }
         return result;
    }
-
-
-
-
-
-
-
-
-
-
-
-
 }

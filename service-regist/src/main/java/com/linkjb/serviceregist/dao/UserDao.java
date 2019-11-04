@@ -25,4 +25,6 @@ public interface UserDao extends BaseMapper<User> {
     User findUserById(@Param("userId") String userId);
 
     void updateUser(User user);
+
+    User getUserByEmailAddress(String emailAddress);
 }

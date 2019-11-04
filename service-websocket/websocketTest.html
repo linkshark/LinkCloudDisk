@@ -17,6 +17,9 @@ Welcome<br/>
 <input id="text" type="text" /><button onclick="send()">Send</button>    <button onclick="closeWebSocket()">Close</button>
 <div id="message">
 </div>
+在线用户:<input id="allOnlineUser" type="text" />
+
+<button onclick="showAllUser()">显示所有在线用户</button>
 <!-- 公共JS -->
     <script type="text/javascript" src="jquery.min.js"></script>
 
@@ -82,6 +85,31 @@ Welcome<br/>
             websocket.close();
         }
     }
+    function showAllUser(){
+      //获取所有在线用户
+
+        var httpRequest = new XMLHttpRequest();//第一步：建立所需的对象
+        httpRequest.open('GET', 'http://127.0.0.1:1088/getAllUsers', true);//第二步：打开连接  将请求参数写在url中  ps:"./Ptest.php?name=test&nameone=testone"
+        httpRequest.send();//第三步：发送请求  将请求参数写在URL中
+        /**
+         * 获取数据后的处理程序
+         */
+        httpRequest.onreadystatechange = function () {
+            //debugger;
+             var json = httpRequest.responseText;
+            if (httpRequest.readyState == 4 && httpRequest.status == 200) {
+                //debugger;
+                var json = httpRequest.responseText;//获取到json字符串，还需解析
+                var s = JSON.parse(json);
+               // console.log(s.entity);
+                //console.log(typeof(s.entity))
+                var a = JSON.parse(s.entity)
+//console.log(a)
+                $("#allOnlineUser").attr("value",a);             
+            }
+            }
+        };
+       
 
 </script>
 </body>

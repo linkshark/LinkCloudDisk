@@ -33,6 +33,8 @@ public class MyHandler implements WebSocketHandler {
 
     //在线用户列表
     public static final Map<String,WebSocketSession> users ;
+
+
     //聊天室列表
     public static final Map<String,List<String>> chatRoom;
     private MQServiceSendImpl mqService;
@@ -51,7 +53,7 @@ public class MyHandler implements WebSocketHandler {
         log.info("用户:"+ID +" 建立连接!");
         if(ID!=null){
             users.put(ID,session);
-            log.info(users.toString());
+            //log.info(users.toString());
             session.sendMessage(new TextMessage("成功建立SOCKET连接"));
             //System.out.println(ID);
             //System.out.println(session);
@@ -173,9 +175,10 @@ public class MyHandler implements WebSocketHandler {
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         //System.out.println("连接已关闭：" + status);
         log.info(session.getAttributes().get("WEBSOCKET_USERID").toString()+"连接已关闭：" + status);
-        log.info("当前在线用户为" +session);
-        //System.out.println(users);
         users.remove(getClientId(session));
+        //Thread.sleep(1000);
+        //log.info("当前在线用户为" +session);
+        //System.out.println(users);
     }
 
     /*

@@ -15,4 +15,6 @@ public interface UserService {
     User findUserById(String userId);
 
     void update(User user);
+
+    User getUserByEmailAddress(String emailAddress);
 }

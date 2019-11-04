@@ -18,7 +18,7 @@ public class WebSocketInterceptor implements HandshakeInterceptor {
         if(request instanceof ServletServerHttpRequest){
             String ID = request.getURI().toString().split("ID=")[1];
             //System.out.println("当前的session的ID="+ID);
-            log.info("当前的session的ID="+ID);
+            //log.info("当前的session的ID="+ID);
             //ServletServerHttpRequest serverHttpRequest = (ServletServerHttpRequest) request;
             //HttpSession session = serverHttpRequest.getServletRequest().getSession();
             attributes.put("WEBSOCKET_USERID",ID);
@@ -28,6 +28,6 @@ public class WebSocketInterceptor implements HandshakeInterceptor {
     //完成握手之后执行该方法
     @Override
     public void afterHandshake(ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse, WebSocketHandler webSocketHandler, Exception e) {
-        log.info("进入webSocket的afterHandshake拦截器");
+        //log.info("进入webSocket的afterHandshake拦截器");
     }
 }

@@ -16,12 +16,16 @@
         <result column="pass_word" jdbcType="VARCHAR" property="passWord" />
         <result column="create_time" jdbcType="DATE" property="createTime" />
         <result column="update_Time" jdbcType="DATE" property="updateTime" />
+        <result column="email" jdbcType="VARCHAR" property="email" />
     </resultMap>
 
 
 
     <select id="getUserByUserName"  resultMap="BaseResultMap">
 		SELECT * FROM user WHERE user_name = #{userName}
+	</select>
+    <select id="getUserByEmailAddress"  resultMap="BaseResultMap">
+		SELECT * FROM user WHERE email = #{emailAddress}
 	</select>
     <insert id="RegistUser"  parameterType="com.linkjb.serviceregist.entity.User" useGeneratedKeys="true" keyProperty="id">
         insert into user(user_name,pass_word,create_time) values(#{userName},#{passWord},#{createTime})

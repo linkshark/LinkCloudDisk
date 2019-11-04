@@ -1,5 +1,7 @@
 package com.linkjb.servicewebsocket.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.linkjb.servicewebsocket.base.BaseResult;
 import com.linkjb.servicewebsocket.feign.UserFeignService;
 import com.linkjb.servicewebsocket.service.MyHandler;
@@ -11,8 +13,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketSession;
+
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author sharkshen
@@ -40,5 +47,20 @@ public class TestController {
         }catch (Exception e){
             log.error(e.getMessage());
         }
+    }
+
+    @GetMapping("/getAllUsers")
+    public BaseResult<String> getAllUser(){
+        BaseResult<String> baseResult = new BaseResult<>();
+        try{
+            Set<String> strings = MyHandler.users.keySet();
+            List a = new ArrayList();
+            a.addAll(strings);
+            String s1 = JSONObject.toJSONString(a);
+            baseResult.setEntity(s1);
+        }catch (Exception e){
+            log.error(e.getMessage());
+        }
+        return  baseResult;
     }
 }
