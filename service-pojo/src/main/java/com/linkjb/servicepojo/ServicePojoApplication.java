@@ -1,13 +1,13 @@
-package com.linkjb.pigeon;
+package com.linkjb.servicepojo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class PigeonApplication {
+public class ServicePojoApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(PigeonApplication.class, args);
+        SpringApplication.run(ServicePojoApplication.class, args);
     }
 
 }

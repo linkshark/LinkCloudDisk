@@ -1,9 +1,9 @@
 package com.linkjb.serviceregist.controller;
 
+import com.linkjb.servicepojo.pojo.user.UserLinkMedia;
 import com.linkjb.serviceregist.annotation.AuthToken;
 import com.linkjb.serviceregist.base.BaseResult;
 import com.linkjb.serviceregist.base.ConstantSrting;
-import com.linkjb.serviceregist.entity.UserLinkMedia;
 import com.linkjb.serviceregist.service.UserLinkMediaService;
 import com.linkjb.serviceregist.service.UserService;
 import com.linkjb.serviceregist.utils.RedisUtil;

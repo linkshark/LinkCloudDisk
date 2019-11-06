@@ -41,11 +41,11 @@ public class WebLogAcpect {
 
         //记录一下内容
         Object[] obj = joinPoint.getArgs();
-        log.info("URL:" + request.getRequestURL().toString());
-        log.info("HTTP_METHOD : " + request.getMethod());
-        log.info("IP : " + request.getRemoteAddr());
-        log.info("CLASS_METHOD : " + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
-        log.info("Session : "+request.getSession().toString());
+//        log.info("URL:" + request.getRequestURL().toString());
+//        log.info("HTTP_METHOD : " + request.getMethod());
+//        log.info("IP : " + request.getRemoteAddr());
+//        log.info("CLASS_METHOD : " + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
+//        log.info("Session : "+request.getSession().toString());
         //log.info("ARGS : " + Arrays.toString(joinPoint.getArgs()));
         //获取请求参数
         Enumeration<String> enumeration = request.getParameterNames();
@@ -78,14 +78,14 @@ public class WebLogAcpect {
     @AfterReturning(returning = "ret" , pointcut = "webLog()")
     public void doAfterReturning(JoinPoint joinPoint,Object ret){
         //处理完请求,返回内容
-        log.info("第一个后置通知返回值" + ret);
+        //log.info("第一个后置通知返回值" + ret);
         //log.info("RESPONSE" + ret);
     }
 
     @AfterReturning(returning = "ret" , pointcut = "webLog()")
     public void doAfterReturning2(JoinPoint joinPoint,Object ret){
         //处理完请求,返回内容
-        log.info("第二个后置返回通知返回值"+ret);
+        //log.info("第二个后置返回通知返回值"+ret);
     }
     /**
      *功能描述
@@ -119,7 +119,7 @@ public class WebLogAcpect {
      */
     @After(value = "webLog()")
     public void doAfterAdvice(JoinPoint joinPoint){
-        log.info("后置最终通知执行了!!!!");
+        //log.info("后置最终通知执行了!!!!");
     }
 
 }

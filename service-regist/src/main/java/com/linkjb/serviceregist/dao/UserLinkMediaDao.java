@@ -1,6 +1,6 @@
 package com.linkjb.serviceregist.dao;
 
-import com.linkjb.serviceregist.entity.UserLinkMedia;
+import com.linkjb.servicepojo.pojo.user.UserLinkMedia;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import tk.mybatis.mapper.common.BaseMapper;

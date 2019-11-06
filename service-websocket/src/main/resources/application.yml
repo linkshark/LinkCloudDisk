@@ -8,27 +8,27 @@ eureka:
 spring:
   redis:
     database: 0
-    host: 106.14.218.153
+    host: sharkshen.asuscomm.com
     port: 6379
     timeout: 5000ms
     pool:
       timeout: 0
-    password: ???
+    password: Shark1996
   application:
     name: service-websocket
   datasource:
     username: root
-    url: jdbc:mysql://linkjb.com:3306/linkdisk?characterEncoding=UTF-8&useSSL=false&useUnicode=true
-    password: ???
+    url: jdbc:mysql://sharkshen.asuscomm.com:3307/chaochao?characterEncoding=UTF-8&useSSL=false&useUnicode=true
+    password: 1996
     driver-class-name: com.mysql.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
   output:
     ansi:
       enabled: always #日志默认开启颜色
   rabbitmq:
-    host: www.linkjb.com
-    username: xiongge
-    password: ???
+    host: sharkshen.asuscomm.com
+    username: shark
+    password: Shark19960311
     port: 5672
     publisher-confirms: true #  消息发送到交换机确认机制,是否确认回调
     listener:

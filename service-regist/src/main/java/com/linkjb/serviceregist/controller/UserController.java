@@ -2,10 +2,10 @@ package com.linkjb.serviceregist.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.linkjb.servicepojo.pojo.user.User;
 import com.linkjb.serviceregist.annotation.AuthToken;
 import com.linkjb.serviceregist.base.BaseResult;
 import com.linkjb.serviceregist.base.ConstantSrting;
-import com.linkjb.serviceregist.entity.User;
 import com.linkjb.serviceregist.service.UserService;
 import com.linkjb.serviceregist.utils.EmailUtils;
 import com.linkjb.serviceregist.utils.MD5;
@@ -95,7 +95,7 @@ public class UserController {
                     result.setMessage("emailAddress:邮箱地址为空");
                     result.setStatus(ConstantSrting.STATUS_FAIL);
                     return result;
-                }else if(userService.getUserByEmailAddress(map.get("emailAddress").toString())==null){
+                }else if(userService.getUserByEmailAddress(map.get("emailAddress").toString())!=null){
                     result.setMessage("邮箱地址已被注册");
                     result.setStatus(ConstantSrting.STATUS_FAIL);
                     return result;
@@ -126,42 +126,49 @@ public class UserController {
          * @return com.linkjb.base.BaseResult<com.linkjb.entity.User>
          **/
     @RequestMapping(value="/User/Regist",method = RequestMethod.POST)
-    public BaseResult<User> Regist(@RequestBody User user,@RequestHeader String verificationCode){
+    public BaseResult<User> Regist(@RequestBody User user, @RequestHeader String verificationCode){
 
         BaseResult<User> result = new BaseResult<>();
        try{
            User userByUserName = userService.getUserByUserName(user.getUserName());
+           User userByEmailAddress = userService.getUserByEmailAddress(user.getEmail());
            if(userByUserName!=null){
                result.setStatus(ConstantSrting.STATUS_FAIL);
                result.setMessage("已存在相同用户名的用户,请重新选择");
+           }else if(userByEmailAddress!=null){
+               result.setStatus(ConstantSrting.STATUS_FAIL);
+               result.setMessage("此邮箱已被注册,请重新选择");
            }else{
-               String s = redisUtil.get(user.getUserName()+"-verificationCode");
-               if(s==null||!s.equals(verificationCode)){
-                   result.setStatus(ConstantSrting.STATUS_FAIL);
-                   result.setMessage("验证码过期或不可用");
-               }else{
-                   String userPass = user.getPassWord();
-                   user.setPassWord(MD5.encryptPassword(userPass,salt));
-                   Integer a = userService.RegistUser(user); //a的值为sql影响的行数,一开始理解错误,是直接将id返回到对象中,所以可以直接返回对象
-                   if(a.equals(1)){
-                       redisUtil.set(user.getUserName(),user.getPassWord());
-                       //实体类转map
-                       JSONObject jsonObject  = (JSONObject)JSON.toJSON(user);
-                       Set<Map.Entry<String,Object>> entrySet = jsonObject.entrySet();
-                       Map<String,Object> map = new HashMap<>();
-                       for (Map.Entry<String,Object> entry:
-                               entrySet) {
-                           map.put(entry.getKey(), entry.getValue());
-                       }
-                       redisUtil.putAll("POJO_"+user.getUserName(),map);
-                       Map<String, User> hashEntries= (Map)redisUtil.getHashEntries("POJO_"+user.getUserName());
-                       Log.info(hashEntries.toString());
-                       result.setEntity(user);
-                       result.setStatus(ConstantSrting.STATUS_SUCCESS);
-                       return result;
-                   }else{
+               {
+                   String s = redisUtil.get(user.getUserName()+"-verificationCode");
+                   if(s==null||!s.equals(verificationCode)){
                        result.setStatus(ConstantSrting.STATUS_FAIL);
-                       result.setMessage("注册失败");
+                       result.setMessage("验证码过期或不可用");
+                   }else{
+                       String userPass = user.getPassWord();
+                       user.setPassWord(MD5.encryptPassword(userPass,salt));
+                       user.setCreateTime(new Date());
+                       Integer a = userService.RegistUser(user); //a的值为sql影响的行数,一开始理解错误,是直接将id返回到对象中,所以可以直接返回对象
+                       if(a.equals(1)){
+                           redisUtil.set(user.getUserName(),user.getPassWord());
+                           //实体类转map
+                           JSONObject jsonObject  = (JSONObject)JSON.toJSON(user);
+                           Set<Map.Entry<String,Object>> entrySet = jsonObject.entrySet();
+                           Map<String,Object> map = new HashMap<>();
+                           for (Map.Entry<String,Object> entry:
+                                   entrySet) {
+                               map.put(entry.getKey(), entry.getValue());
+                           }
+                           redisUtil.putAll("POJO_"+user.getUserName(),map);
+                           Map<String, User> hashEntries= (Map)redisUtil.getHashEntries("POJO_"+user.getUserName());
+                           //Log.info(hashEntries.toString());
+                           result.setEntity(user);
+                           result.setStatus(ConstantSrting.STATUS_SUCCESS);
+                           return result;
+                       }else{
+                           result.setStatus(ConstantSrting.STATUS_FAIL);
+                           result.setMessage("注册失败");
+                       }
                    }
                }
            }
@@ -182,34 +189,45 @@ public class UserController {
      * @return com.linkjb.base.BaseResult<com.linkjb.entity.User>
      **/
     @PostMapping("/User/Login")
-    public BaseResult<String> Login(@RequestParam("userName") String userName, @RequestParam("passWord") String passWord){
+    public BaseResult<String> Login(@RequestBody Map<String,Object> map){
         BaseResult<String> result = new BaseResult<>();
         try{
-                User user = userService.getUserByUserName(userName);
-                if(user!=null){
-                    String checkPass = user.getPassWord();
-                    String a = MD5.encryptPassword(passWord,salt);
-                    if(MD5.encryptPassword(passWord,salt).equals(checkPass)){
-                        //username和token 双向绑定,登录后token有效时间为60分钟
-                        redisUtil.setForTimeMS(userName,user.getToken(user),1000*60*60);
-                        redisUtil.setForTimeMS(user.getToken(user),userName,1000*60*60);
-                        redisUtil.set(userName+user.getToken(user),String.valueOf(System.currentTimeMillis()));
-                        //Log.info(redisUtil.get(userName+user.getToken(user)).toString());
-                        //Log.info(redisUtil.get(userName));
-                        result.setStatus(ConstantSrting.STATUS_SUCCESS);
-                        result.setEntity(redisUtil.get(userName));
-                        result.setMessage("获取Token成功,有效时间为60min");
-                        return result;
+                if(map.get("userName")==null||"".equals(map.get("userName"))){
+                    result.setStatus(ConstantSrting.STATUS_FAIL);
+                    result.setMessage("userName:用户名未填写");
+                }else if(map.get("passWord")==null||"".equals(map.get("passWord"))){
+                    result.setStatus(ConstantSrting.STATUS_FAIL);
+                    result.setMessage("passWord:密码未填写");
+                }else{
+                    String userName = map.get("userName").toString();
+                    String passWord = map.get("passWord").toString();
+                    User user = userService.getUserByUserName(userName);
+                    if(user!=null){
+                        String checkPass = user.getPassWord();
+                        String a = MD5.encryptPassword(passWord,salt);
+                        if(MD5.encryptPassword(passWord,salt).equals(checkPass)){
+                            //username和token 双向绑定,登录后token有效时间为60分钟
+                            redisUtil.setForTimeMS(userName,user.getToken(user),1000*60*60);
+                            redisUtil.setForTimeMS(user.getToken(user),userName,1000*60*60);
+                            redisUtil.set(userName+user.getToken(user),String.valueOf(System.currentTimeMillis()));
+                            //Log.info(redisUtil.get(userName+user.getToken(user)).toString());
+                            //Log.info(redisUtil.get(userName));
+                            result.setStatus(ConstantSrting.STATUS_SUCCESS);
+                            result.setEntity(redisUtil.get(userName));
+                            result.setMessage("获取Token成功,有效时间为60min");
+                            return result;
+                        }else{
+                            result.setStatus(ConstantSrting.STATUS_FAIL);
+                            result.setMessage("密码错误");
+                            return result;
+                        }
                     }else{
                         result.setStatus(ConstantSrting.STATUS_FAIL);
-                        result.setMessage("密码错误");
+                        result.setMessage("账号错误");
                         return result;
                     }
-                }else{
-                    result.setStatus(ConstantSrting.STATUS_FAIL);
-                    result.setMessage("账号错误");
-                    return result;
                 }
+
         }catch (Exception e){
             Log.error(e.getMessage());
             result.setStatus(ConstantSrting.STATUS_SUCCESS);

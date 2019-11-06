@@ -1,6 +1,6 @@
 package com.linkjb.serviceregist.dao;
 
-import com.linkjb.serviceregist.entity.User;
+import com.linkjb.servicepojo.pojo.user.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;

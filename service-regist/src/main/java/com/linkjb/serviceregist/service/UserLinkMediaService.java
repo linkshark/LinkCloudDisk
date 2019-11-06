@@ -1,6 +1,6 @@
 package com.linkjb.serviceregist.service;
 
-import com.linkjb.serviceregist.entity.UserLinkMedia;
+import com.linkjb.servicepojo.pojo.user.UserLinkMedia;
 import org.springframework.util.concurrent.ListenableFuture;
 
 import java.util.List;

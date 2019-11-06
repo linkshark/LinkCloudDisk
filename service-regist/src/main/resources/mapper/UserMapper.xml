@@ -10,7 +10,7 @@
         <!--<result property="passWord" column="pass_word"/>-->
         <!--<result property="id" column="id"/>-->
     <!--</resultMap>-->
-    <resultMap id="BaseResultMap" type="com.linkjb.serviceregist.entity.User">
+    <resultMap id="BaseResultMap" type="com.linkjb.servicepojo.pojo.user.User">
         <id column="id" jdbcType="INTEGER" property="id" />
         <result column="user_name" jdbcType="VARCHAR" property="userName" />
         <result column="pass_word" jdbcType="VARCHAR" property="passWord" />
@@ -27,8 +27,8 @@
     <select id="getUserByEmailAddress"  resultMap="BaseResultMap">
 		SELECT * FROM user WHERE email = #{emailAddress}
 	</select>
-    <insert id="RegistUser"  parameterType="com.linkjb.serviceregist.entity.User" useGeneratedKeys="true" keyProperty="id">
-        insert into user(user_name,pass_word,create_time) values(#{userName},#{passWord},#{createTime})
+    <insert id="RegistUser"  parameterType="com.linkjb.servicepojo.pojo.user.User" useGeneratedKeys="true" keyProperty="id">
+        insert into user(user_name,pass_word,create_time,email) values(#{userName},#{passWord},#{createTime},#{email}))
         <!-- 指定结果类型resultType，keyProperty是属性，自动返回到属性id中，order是次序，after是指获取id是在于插入后 -->
         <!--<selectKey resultType="int" keyProperty="id" order="AFTER">-->
             <!--select last_insert_id()-->
@@ -37,7 +37,7 @@
     <select id="getAllUser" resultMap="BaseResultMap">
         select * from user
     </select>
-    <update id="updateUser" parameterType="com.linkjb.serviceregist.entity.User">
+    <update id="updateUser" parameterType="com.linkjb.servicepojo.pojo.user.User">
         <if test="id!=null">
             update user
            <!-- set能智能去掉最后一个 , -->

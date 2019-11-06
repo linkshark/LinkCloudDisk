@@ -1,9 +1,8 @@
 package com.linkjb.serviceregist.service.Impl;
 
+import com.linkjb.servicepojo.pojo.user.User;
 import com.linkjb.serviceregist.dao.UserDao;
-import com.linkjb.serviceregist.entity.User;
 import com.linkjb.serviceregist.service.UserService;
-import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -25,7 +24,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Integer RegistUser(User user) {
-        return userDao.RegistUser(user);
+        return userDao.insert(user);
     }
 
     @Override

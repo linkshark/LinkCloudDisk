@@ -1,4 +1,4 @@
-package com.linkjb.serviceregist.entity;
+package com.linkjb.servicepojo.pojo.user;
 
 import java.util.Date;
 

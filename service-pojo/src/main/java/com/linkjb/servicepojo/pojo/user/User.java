@@ -1,4 +1,4 @@
-package com.linkjb.serviceregist.entity;
+package com.linkjb.servicepojo.pojo.user;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -20,7 +20,7 @@ public class User implements Serializable {
 
     private String userName;
 
-//    @JsonIgnore //指定字段不返回
+    //    @JsonIgnore //指定字段不返回
     private String passWord;
 
     private String email;
@@ -55,7 +55,7 @@ public class User implements Serializable {
         this.passWord = passWord == null ? null : passWord.trim();
     }
 
-//    Algorithm.HMAC256():使用HS256生成token,密钥则是用户的密码，唯一密钥的话可以保存在服务端。
+    //    Algorithm.HMAC256():使用HS256生成token,密钥则是用户的密码，唯一密钥的话可以保存在服务端。
 //    withAudience()存入需要保存在token的信息，这里将用户ID存入token中
     public String getToken(User user) {
         String token="";

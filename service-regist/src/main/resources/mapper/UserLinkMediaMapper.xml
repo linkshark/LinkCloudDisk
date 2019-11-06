@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
 
 <mapper namespace="com.linkjb.serviceregist.dao.UserLinkMediaDao">
-    <resultMap id="BaseResultMap" type="com.linkjb.serviceregist.entity.UserLinkMedia">
+    <resultMap id="BaseResultMap" type="com.linkjb.servicepojo.pojo.user.UserLinkMedia">
         <id column="user_id" jdbcType="INTEGER" property="userId" />
         <result column="media_id" jdbcType="INTEGER" property="mediaId" />
         <result column="sub_scribe_time" jdbcType="DATE" property="subScribeTime" />

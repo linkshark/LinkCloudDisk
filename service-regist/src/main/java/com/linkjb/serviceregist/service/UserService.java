@@ -1,6 +1,6 @@
 package com.linkjb.serviceregist.service;
 
-import com.linkjb.serviceregist.entity.User;
+import com.linkjb.servicepojo.pojo.user.User;
 
 /**
  * @author sharkshen
