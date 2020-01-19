@@ -12,9 +12,9 @@ spring:
   application:
     name: eurka-server
   rabbitmq:
-    host: www.linkjb.com
-    username: xiongge
-    password: ???????
+    host: sharkshen.asuscomm.com
+    username: shark
+    password: Shark19960311
     port: 5672
     publisher-confirms: true #  消息发送到交换机确认机制,是否确认回调
     listener:
@@ -24,3 +24,4 @@ spring:
           enabled: true
           #重试次数，默认为 3 次
           max-attempts: 5
+
