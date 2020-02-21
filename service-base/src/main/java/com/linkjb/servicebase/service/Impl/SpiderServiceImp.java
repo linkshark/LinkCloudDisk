@@ -40,13 +40,13 @@ public class SpiderServiceImp implements SpiderService {
     //log4j日志
     private static final Logger log = LoggerFactory.getLogger(SpiderServiceImp.class);
     //初始的URL入口
-    private static String url = "https://www.meijutt.com/1_______.html";
+    private static String url = "https://www.meijutt.tv/1_______.html";
 
     public String getPageNum() throws IOException {
         String number ="";
        try{
            //使用JSOUP获取连接
-           Connection conn = Jsoup.connect(url).timeout(5000);
+           Connection conn = Jsoup.connect(url).timeout(30000);
            //设置请求头,模拟浏览器登陆,绕过简单的反爬虫机制
            conn.header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
            conn.header("Accept-Encoding", "gzip, deflate, sdch");
@@ -65,10 +65,10 @@ public class SpiderServiceImp implements SpiderService {
 
     }
     public List<String> getUrl() throws IOException {
-        List<String> list = new ArrayList<>(3000);
+        List<String> list = new ArrayList<>(6000);
         try{
             String number = getPageNum();
-            String url = "https://www.meijutt.com/";
+            String url = "https://www.meijutt.tv/";
             for(int i = 1;i<=Integer.parseInt(number);i++){
                 list.add(url+i+"_______.html");
             }
@@ -79,11 +79,12 @@ public class SpiderServiceImp implements SpiderService {
     }
 
     public List<String> getAllUrl(){
-        List<String> list = new ArrayList<>(5000);
+        List<String> list = new ArrayList<>(6000);
         try{
             List<String> Allurl = getUrl();
             for (String url:Allurl){
-                Document document = Jsoup.connect(url).timeout(5000).header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8")
+                Thread.sleep(new Random().nextInt(500));
+                Document document = Jsoup.connect(url).timeout(30000).header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8")
                         .header("Accept-Encoding", "gzip, deflate, sdch")
                         .header("Accept-Language", "zh-CN,zh;q=0.8")
                         .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36")
@@ -93,11 +94,11 @@ public class SpiderServiceImp implements SpiderService {
 //                File f = new File(fileName);
 //                OutputStream out = new FileOutputStream(f,true);//true表示追加模式，否则为覆盖
                 for(Element currentEle:select){
-//                    String href = "https://www.meijutt.com"+currentEle.attr("href")+"\r\n";
-                    log.info("https://www.meijutt.com"+currentEle.attr("href"));
+//                    String href = "https://www.meijutt.tv"+currentEle.attr("href")+"\r\n";
+                    log.info("https://www.meijutt.tv"+currentEle.attr("href"));
 //                    byte[] b = href.getBytes();
 //                    out.write(b);
-                    list.add("https://www.meijutt.com"+currentEle.attr("href"));
+                    list.add("https://www.meijutt.tv"+currentEle.attr("href"));
                 }
                 //out.close();
 
@@ -113,26 +114,10 @@ public class SpiderServiceImp implements SpiderService {
     //通过@Async注解表明该方法是一个异步方法，如果注解在类级别，表明该类下所有方法都是异步方法，
     // 而这里的方法自动被注入使用ThreadPoolTaskExecutor 作为 TaskExecutor
     public void getAndInsertData(String currentUrl) throws IOException {
-        //List<String> allUrl = getAllUrl();
-
-        //List<String> allUrl = new ArrayList<>();
-//        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(new File("C:/lastUrl.txt")),
-//                "UTF-8"));
-//        String line = null;
-//        while((line=br.readLine())!=null){
-//            log.info(line);
-//            allUrl.add(line);
-//        }
-//        br.close();
-
-//        String fileName="D:"+ File.separator+"download.txt";
-//        File f = new File(fileName);
-        //OutputStream out = new FileOutputStream(f,true);//true表示追加模式，否则为覆盖
-
             //for(String currentUrl:allUrl){
                 try{
 
-                Document document = Jsoup.connect(currentUrl).timeout(5000).header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8")
+                Document document = Jsoup.connect(currentUrl).timeout(30000).header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8")
                         .header("Accept-Encoding", "gzip, deflate, sdch")
                         .header("Accept-Language", "zh-CN,zh;q=0.8")
                         .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36")
@@ -169,7 +154,7 @@ public class SpiderServiceImp implements SpiderService {
                     String params = "id="+currentUrl.substring(currentUrl.lastIndexOf("meiju")+5,currentUrl.lastIndexOf("."))+"&action=newstarscorevideo";
                     //log.info(params);
                     Thread.sleep(1000);
-                    String s = HttpRequest.sendGet("https://www.meijutt.com/inc/ajax.asp", params);
+                    String s = HttpRequest.sendGet("https://www.meijutt.tv/inc/ajax.asp", params);
                     //log.info(s);
                     String substring = s.substring(s.indexOf("[") + 1, s.indexOf("]"));
                     String[] split = substring.split(",");
@@ -221,6 +206,7 @@ public class SpiderServiceImp implements SpiderService {
             }catch (Exception e){
                     e.printStackTrace();
                     log.info(currentUrl);
+                    return;
                 }
             //
         //}

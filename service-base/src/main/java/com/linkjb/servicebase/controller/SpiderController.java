@@ -4,6 +4,8 @@ import com.linkjb.servicebase.error.BusinessException;
 import com.linkjb.servicebase.error.EmBussnessError;
 import com.linkjb.servicebase.response.CommonReturnType;
 import com.linkjb.servicebase.service.SpiderService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -23,11 +25,13 @@ import java.util.Map;
 @RequestMapping("spider")
 //extends BaseController
 public class SpiderController {
+    Logger log = LoggerFactory.getLogger(SpiderController.class);
     @Autowired
     SpiderService spService;
     @RequestMapping(value = "/hello",method = RequestMethod.PUT)
     public void Hello() throws IOException {
         List<String> allList = spService.getAllUrl();
+        log.info("[总大小]----"+allList.size());
         allList.forEach(i-> {
             try {
                 spService.getAndInsertData(i);
