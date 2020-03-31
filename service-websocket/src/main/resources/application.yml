@@ -11,19 +11,18 @@ spring:
     timeout: 5000ms
     pool:
       timeout: 0
-    password: Shark1996
+
   application:
     name: service-websocket
   datasource:
 
-    password: 1996
+
     driver-class-name: com.mysql.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
   output:
     ansi:
       enabled: always #日志默认开启颜色
   rabbitmq:
-
     port: 5672
     publisher-confirms: true #  消息发送到交换机确认机制,是否确认回调
     listener:
