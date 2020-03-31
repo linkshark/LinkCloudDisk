@@ -7,9 +7,7 @@ eureka:
       defaultZone: http://localhost:1000/eureka/
 spring:
   redis:
-    database: 0
-    host: sharkshen.asuscomm.com
-    port: 6379
+
     timeout: 5000ms
     pool:
       timeout: 0
@@ -17,8 +15,7 @@ spring:
   application:
     name: service-websocket
   datasource:
-    username: root
-    url: jdbc:mysql://sharkshen.asuscomm.com:3307/chaochao?characterEncoding=UTF-8&useSSL=false&useUnicode=true
+
     password: 1996
     driver-class-name: com.mysql.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
@@ -26,9 +23,7 @@ spring:
     ansi:
       enabled: always #日志默认开启颜色
   rabbitmq:
-    host: sharkshen.asuscomm.com
-    username: shark
-    password: Shark19960311
+
     port: 5672
     publisher-confirms: true #  消息发送到交换机确认机制,是否确认回调
     listener:
