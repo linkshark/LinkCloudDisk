@@ -3,6 +3,7 @@ package com.linkjb.servicewebsocket.service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.linkjb.servicewebsocket.entity.User;
 import com.linkjb.servicewebsocket.feign.UserFeignService;
 import com.linkjb.servicewebsocket.service.Impl.MQServiceSendImpl;
 import com.linkjb.servicewebsocket.utils.RedisUtil;
@@ -10,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.*;
@@ -65,6 +67,12 @@ public class MyHandler implements WebSocketHandler {
     @Override
     public void handleMessage(WebSocketSession webSocketSession, WebSocketMessage<?> webSocketMessage) throws Exception {
                 try{
+
+                    ApplicationContext context = new ClassPathXmlApplicationContext("bean.xml");
+                    User person = context.getBean("person", User.class);
+                    System.out.println(person.toString());
+
+
                     String payload = (String)webSocketMessage.getPayload();
                     com.alibaba.fastjson.JSONObject jsonObject = JSON.parseObject(payload);
                     mqService = applicationContext.getBean(MQServiceSendImpl.class);

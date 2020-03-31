@@ -40,7 +40,7 @@ CREATE TABLE `media` (
   `grade` varchar(255) DEFAULT NULL COMMENT '评分',
   `image` varchar(255) DEFAULT NULL COMMENT '图片名',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5101 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for media_link
@@ -55,7 +55,7 @@ CREATE TABLE `media_link` (
   PRIMARY KEY (`id`),
   KEY `link_id` (`link_id`),
   KEY `url_name` (`url_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=59138 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for user
@@ -68,7 +68,7 @@ CREATE TABLE `user` (
   `create_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 SET FOREIGN_KEY_CHECKS=0;
 

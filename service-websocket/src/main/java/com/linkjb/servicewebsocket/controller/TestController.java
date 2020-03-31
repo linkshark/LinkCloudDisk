@@ -51,6 +51,13 @@ public class TestController {
 
     @GetMapping("/getAllUsers")
     public BaseResult<String> getAllUser(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("匿名内部类");
+            }
+        }).start();
+//        Runnable task =
         BaseResult<String> baseResult = new BaseResult<>();
         try{
             Set<String> strings = MyHandler.users.keySet();

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.linkjb.servicebase.dao.TestDao">
+    <!--mybatis.configuration.map-underscore-to-camel-case是一个非常好的配置项，
+    合理的命名规范可以让我们省略很多不必要的麻烦，
+    比如xx-mapper.xml中的resultMap的映射可以省略掉了-->
+    <!--<resultMap id="userMap" type="com.linkjb.serviceregist.entity.User">-->
+    <!--<result property="userName" column="user_name"/>-->
+    <!--<result property="passWord" column="pass_word"/>-->
+    <!--<result property="id" column="id"/>-->
+    <!--</resultMap>-->
+
+
+
+    <insert id="insertIntoOcl">
+        insert into BASE_PATIENT(PATIENTID,IDCARD,MOBILE,PATIENTNAME) values(#{idCardNumber},#{idCardNumber},#{mobile},#{name})
+        <!-- 指定结果类型resultType，keyProperty是属性，自动返回到属性id中，order是次序，after是指获取id是在于插入后 -->
+        <!--<selectKey resultType="int" keyProperty="id" order="AFTER">-->
+        <!--select last_insert_id()-->
+        <!--</selectKey>-->
+    </insert>
+
+</mapper>

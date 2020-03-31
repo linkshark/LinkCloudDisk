@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.linkjb.servicews.dao.LinkMediaMapper">
+  <resultMap id="BaseResultMap" type="com.linkjb.servicews.entity.LinkMedia">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="link_id" jdbcType="INTEGER" property="linkId" />
+    <result column="url_name" jdbcType="VARCHAR" property="urlName" />
+    <result column="url_address" jdbcType="VARCHAR" property="urlAddress" />
+    <result column="size" jdbcType="VARCHAR" property="size" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, link_id, url_name, url_address, size
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from media_link
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="getLinkMediaByLinkId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    *
+    from media_link
+    where link_id = #{linkId}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from media_link
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.linkjb.servicews.entity.LinkMedia">
+    insert into media_link (id, link_id, url_name, 
+      url_address, size)
+    values (#{id,jdbcType=INTEGER}, #{linkId,jdbcType=INTEGER}, #{urlName,jdbcType=VARCHAR}, 
+      #{urlAddress,jdbcType=VARCHAR}, #{size,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.linkjb.servicews.entity.LinkMedia">
+    insert into media_link
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="linkId != null">
+        link_id,
+      </if>
+      <if test="urlName != null">
+        url_name,
+      </if>
+      <if test="urlAddress != null">
+        url_address,
+      </if>
+      <if test="size != null">
+        size,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="linkId != null">
+        #{linkId,jdbcType=INTEGER},
+      </if>
+      <if test="urlName != null">
+        #{urlName,jdbcType=VARCHAR},
+      </if>
+      <if test="urlAddress != null">
+        #{urlAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="size != null">
+        #{size,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.linkjb.servicews.entity.LinkMedia">
+    update media_link
+    <set>
+      <if test="linkId != null">
+        link_id = #{linkId,jdbcType=INTEGER},
+      </if>
+      <if test="urlName != null">
+        url_name = #{urlName,jdbcType=VARCHAR},
+      </if>
+      <if test="urlAddress != null">
+        url_address = #{urlAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="size != null">
+        size = #{size,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.linkjb.servicews.entity.LinkMedia">
+    update media_link
+    set link_id = #{linkId,jdbcType=INTEGER},
+      url_name = #{urlName,jdbcType=VARCHAR},
+      url_address = #{urlAddress,jdbcType=VARCHAR},
+      size = #{size,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -10,6 +10,7 @@ import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * @author sharkshen
@@ -40,7 +41,7 @@ public class RabbitMqConfig {
     private ConnectionFactory connectionFactory;
 
     /**
-     *功能描述  将消息队列1与交换机进行绑定
+     *功能描述  将消息队列与交换机进行绑定
      * @author shark
      * @date 2019/5/14
      * @param  * @param null
@@ -73,6 +74,7 @@ public class RabbitMqConfig {
      */
     @Bean
     public SimpleMessageListenerContainer simpleMessageListenerContainer_one(){
+       // ClassPathXmlApplicationContext;
         SimpleMessageListenerContainer simpleMessageListenerContainer = new SimpleMessageListenerContainer(connectionFactory);
         simpleMessageListenerContainer.addQueues(queueConfig.firstQueue());
         simpleMessageListenerContainer.addQueues(queueConfig.thirdQueue());

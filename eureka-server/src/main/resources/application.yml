@@ -12,7 +12,6 @@ spring:
   application:
     name: eurka-server
   rabbitmq:
-
     port: 5672
     publisher-confirms: true #  消息发送到交换机确认机制,是否确认回调
     listener:
